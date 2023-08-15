@@ -1,3 +1,8 @@
+<script lang="ts">
+	export let recieveUpdateFromParent: number = 0;
+</script>
+
+
 <svelte:head>
 	<title>About</title>
 	<meta name="description" content="About this app" />
@@ -23,4 +28,6 @@
 		The <a href="/sverdle">Sverdle</a> page illustrates SvelteKit's data loading and form handling. Try
 		using it with JavaScript disabled!
 	</p>
+
+	<p>This has been sent from parent: {recieveUpdateFromParent}</p>
 </div>
