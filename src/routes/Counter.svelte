@@ -1,19 +1,13 @@
 <script lang="ts">
-	import { spring } from 'svelte/motion';
 	import { count } from './stores';
 	import { decrement, increment } from './utils/utils.svelte';
 
-	let count_value = 0;
-
-	count.subscribe((value: number): void => {
-        count_value = value;
-    });
 
 	const incrementAndUpdateStore = () => count.update((n: number) => increment(n));
 	const decrementAndUpdateStore = () => count.update((n: number) => decrement(n));
 
-	$: count.set(count_value);
-	$: offset = modulo(count_value, 1);
+	$: count.set($count);
+	$: offset = modulo($count, 1);
 
 	/**
 	 * @param {number} n
@@ -34,8 +28,8 @@
 
 	<div class="counter-viewport">
 		<div class="counter-digits" style="transform: translate(0, {100 * offset}%)">
-			<strong class="hidden" aria-hidden="true">{Math.floor(count_value + 1)}</strong>
-			<strong>{Math.floor(count_value)}</strong>
+			<strong class="hidden" aria-hidden="true">{Math.floor($count + 1)}</strong>
+			<strong>{Math.floor($count)}</strong>
 		</div>
 	</div>
 

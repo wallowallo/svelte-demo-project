@@ -16,7 +16,6 @@
     const src2 = "https://i.dailymail.co.uk/i/pix/2017/06/06/01/41240EDA00000578-0-image-a-72_1496709824104.jpg"
 
     let textareaValue: string = "";
-    let count_value: number = 0;
     let clicked: boolean = false;
     let timeouts: number[] = [];
     let intervals: number[] = [];
@@ -27,16 +26,6 @@
     let name: string = "Kenny";
     let greetList: string[] = ["Hello", "Hi", "Greetings", "Salut", "Hei", "Heisann", "Halloyen", "Hey"];
     let partyList: string[] = ["Woop woop!", "Let's gooooo!", "Time for the weekend!", "Let's enjoy the night!", "Party!", "Finally free!", "Let's dance!", "Disco!", "Yuuuuuup!"];
-    let partyMode_value = false;
-
-    
-    partyMode.subscribe((value: boolean): void => {
-        partyMode_value = value;
-    });
-
-    count.subscribe((value: number): void => {
-        count_value = value;
-    });
 
     const incrementAndDisplayText = () => {
         count.update((n: number) => increment(n));
@@ -65,7 +54,7 @@
     }
 
     const hideTextAfterTimeout = () => {
-        if (count_value === 0) return;
+        if ($count === 0) return;
 
         timeLeftMS = 2000;
         timeRemaining();
@@ -81,11 +70,11 @@
         }
     }
 
-    const togglePartyMode = () => partyMode.set(!partyMode_value);
+    const togglePartyMode = () => partyMode.set(!$partyMode);
     
-    $: doubled = count_value * 2;
-    $: dec = decrement(count_value);
-    $: count_value, hideTextAfterTimeout();
+    $: doubled = $count * 2;
+    $: dec = decrement($count);
+    $: $count, hideTextAfterTimeout();
 
     const getCoordinates = onCursorMove(cursorCoordinates);
 
@@ -106,13 +95,13 @@
 
 <div on:pointermove|trusted={(e) => cursorCoordinates = getCoordinates(e)}>
 
-    <p class:partyText={partyMode_value}>Hello {@html worldStringContainingHTML.toUpperCase()}!</p>
-    <p class:partyText={partyMode_value}> You have incremented to: {count_value} and double is: {doubled} and decremented is: {dec}</p>
-    <p class:partyText={partyMode_value}> Clicked is: {clicked}</p>
+    <p class:partyText={$partyMode}>Hello {@html worldStringContainingHTML.toUpperCase()}!</p>
+    <p class:partyText={$partyMode}> You have incremented to: {$count} and double is: {doubled} and decremented is: {dec}</p>
+    <p class:partyText={$partyMode}> Clicked is: {clicked}</p>
     
-    <img class:partyMode={partyMode_value} src={partyMode_value ? src : src2} alt="fun time with an emoji, silly, tongue sticking out">
+    <img class:partyMode={$partyMode} src={$partyMode ? src : src2} alt="fun time with an emoji, silly, tongue sticking out">
     
-    <button class:partyStyling={partyMode_value} on:click|trusted={incrementAndDisplayText}>
+    <button class:partyStyling={$partyMode} on:click|trusted={incrementAndDisplayText}>
         { !clicked ? "Click me, please!" : "Thank you!"}
     </button>
     
@@ -120,40 +109,40 @@
         <p class="greetOnClick" aria-hidden={clicked}>Top of the morning to ya!</p>
         <p>Time left before i disappear: {timeLeftSeconds}: {timeLeftDecimalSeconds} - Milliseconds: {timeLeftMS}</p>
     {:else}
-        <p class:partyText={partyMode_value}>Don't trust the button over.</p>
+        <p class:partyText={$partyMode}>Don't trust the button over.</p>
     {/if}
 
-    <button class:partyStyling={partyMode_value} on:click={togglePartyMode}>
-        {!partyMode_value ? 'Party Time!' : 'Make it stop, please!'}
+    <button class:partyStyling={$partyMode} on:click={togglePartyMode}>
+        {!$partyMode ? 'Party Time!' : 'Make it stop, please!'}
     </button>
     
     {#await myPromise}
-        <p class:partyText={partyMode_value}>
+        <p class:partyText={$partyMode}>
             ...waiting
         </p>
     {:then greeting}
-        {#each !partyMode_value ? [...greetList, greeting] : partyList as greet}
-            <p class:partyText={partyMode_value}>{greet}</p>
+        {#each !$partyMode ? [...greetList, greeting] : partyList as greet}
+            <p class:partyText={$partyMode}>{greet}</p>
         {/each} 
     {/await}
 
-    <input class:partyStyling={partyMode_value} type="text" bind:value={name}>
+    <input class:partyStyling={$partyMode} type="text" bind:value={name}>
 
-    <p class:partyText={partyMode_value}>{name}</p>
+    <p class:partyText={$partyMode}>{name}</p>
 
-    <p class:partyText={partyMode_value}>{cursorCoordinates.x} - {cursorCoordinates.y}</p>
+    <p class:partyText={$partyMode}>{cursorCoordinates.x} - {cursorCoordinates.y}</p>
     
-    <Textarea bind:value={textareaValue} bind:partyMode={partyMode_value}/>
+    <Textarea bind:value={textareaValue} bind:partyMode={$partyMode}/>
 
     {#if textareaValue !== ""}
-        <p class:partyText={partyMode_value}>{textareaValue}</p>
+        <p class:partyText={$partyMode}>{textareaValue}</p>
     {:else}
-        <p class:partyText={partyMode_value}>Aaaah! To bask in the sunlight!</p>
+        <p class:partyText={$partyMode}>Aaaah! To bask in the sunlight!</p>
     {/if}
 
-    <input class:partyStyling={partyMode_value} type="text" bind:value={textareaValue}>
+    <input class:partyStyling={$partyMode} type="text" bind:value={textareaValue}>
 
-    <About bind:partyMode={partyMode_value} recieveUpdateFromParent={count_value} />
+    <About bind:partyMode={$partyMode} recieveUpdateFromParent={$count} />
 </div>
 
 
