@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { partyMode, count } from "../stores";
     import Textarea from "../textarea/textarea.svelte";
     import About from "../about/+page.svelte";
     import {
@@ -10,11 +11,12 @@
         onCursorMove
     } from "../utils/utils.svelte";
 
-	const worldStringContainingHTML = '<strong>worl</strong>';
-    const src = "https://www.shutterstock.com/shutterstock/photos/487329331/display_1500/stock-vector-fun-time-inscription-vector-illustration-487329331.jpg";
-    
+	const worldStringContainingHTML = '<strong>world</strong>';
+    const src = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2hqMHcwbGc1ZWo5cHo0Nml3MTk5bDc2aWM3OGtuMTZmaHNleHZxeiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/Y4nmq4GOnLf4XIgALX/200_d.gif";
+    const src2 = "https://i.dailymail.co.uk/i/pix/2017/06/06/01/41240EDA00000578-0-image-a-72_1496709824104.jpg"
+
     let textareaValue: string = "";
-    let count: number = 0;
+    let count_value: number = 0;
     let clicked: boolean = false;
     let timeouts: number[] = [];
     let intervals: number[] = [];
@@ -24,10 +26,20 @@
     let cursorCoordinates: {x: number, y: number} = { x: 0, y: 0}
     let name: string = "Kenny";
     let greetList: string[] = ["Hello", "Hi", "Greetings", "Salut", "Hei", "Heisann", "Halloyen", "Hey"];
-    let partyMode = false;
+    let partyList: string[] = ["Woop woop!", "Let's gooooo!", "Time for the weekend!", "Let's enjoy the night!", "Party!", "Finally free!", "Let's dance!", "Disco!", "Yuuuuuup!"];
+    let partyMode_value = false;
+
+    
+    partyMode.subscribe((value: boolean): void => {
+        partyMode_value = value;
+    });
+
+    count.subscribe((value: number): void => {
+        count_value = value;
+    });
 
     const incrementAndDisplayText = () => {
-        count = increment(count);
+        count.update((n: number) => increment(n));
         clicked = true;
     }
 
@@ -53,7 +65,7 @@
     }
 
     const hideTextAfterTimeout = () => {
-        if (count === 0) return;
+        if (count_value === 0) return;
 
         timeLeftMS = 2000;
         timeRemaining();
@@ -69,11 +81,11 @@
         }
     }
 
-    const togglePartyMode = () => partyMode = !partyMode;
-
-    $: doubled = count * 2;
-    $: dec = decrement(count);
-    $: count, hideTextAfterTimeout();
+    const togglePartyMode = () => partyMode.set(!partyMode_value);
+    
+    $: doubled = count_value * 2;
+    $: dec = decrement(count_value);
+    $: count_value, hideTextAfterTimeout();
 
     const getCoordinates = onCursorMove(cursorCoordinates);
 
@@ -94,54 +106,54 @@
 
 <div on:pointermove|trusted={(e) => cursorCoordinates = getCoordinates(e)}>
 
-    <p class:partyText={partyMode}>Hello {@html worldStringContainingHTML.toUpperCase()}!</p>
-    <p class:partyText={partyMode}> You have incremented to: {count} and double is: {doubled} and decremented is: {dec}</p>
-    <p class:partyText={partyMode}> Clicked is: {clicked}</p>
+    <p class:partyText={partyMode_value}>Hello {@html worldStringContainingHTML.toUpperCase()}!</p>
+    <p class:partyText={partyMode_value}> You have incremented to: {count_value} and double is: {doubled} and decremented is: {dec}</p>
+    <p class:partyText={partyMode_value}> Clicked is: {clicked}</p>
     
-    <img class:partyMode {src} alt="fun time with an emoji, silly, tongue sticking out">
+    <img class:partyMode={partyMode_value} src={partyMode_value ? src : src2} alt="fun time with an emoji, silly, tongue sticking out">
     
-    <button class:partyStyling={partyMode} on:click|trusted={incrementAndDisplayText}>
-        Click me, please.
+    <button class:partyStyling={partyMode_value} on:click|trusted={incrementAndDisplayText}>
+        { !clicked ? "Click me, please!" : "Thank you!"}
     </button>
     
     {#if clicked}
         <p class="greetOnClick" aria-hidden={clicked}>Top of the morning to ya!</p>
         <p>Time left before i disappear: {timeLeftSeconds}: {timeLeftDecimalSeconds} - Milliseconds: {timeLeftMS}</p>
     {:else}
-        <p class:partyText={partyMode}>ok</p>
+        <p class:partyText={partyMode_value}>Don't trust the button over.</p>
     {/if}
+
+    <button class:partyStyling={partyMode_value} on:click={togglePartyMode}>
+        {!partyMode_value ? 'Party Time!' : 'Make it stop, please!'}
+    </button>
     
     {#await myPromise}
-        <p class:partyText={partyMode}>
+        <p class:partyText={partyMode_value}>
             ...waiting
         </p>
     {:then greeting}
-        {#each [...greetList, greeting] as greet}
-            <p class:partyText={partyMode}>{greet}</p>
+        {#each !partyMode_value ? [...greetList, greeting] : partyList as greet}
+            <p class:partyText={partyMode_value}>{greet}</p>
         {/each} 
     {/await}
 
-    <input class:partyStyling={partyMode} type="text" bind:value={name}>
+    <input class:partyStyling={partyMode_value} type="text" bind:value={name}>
 
-    <p class:partyText={partyMode}>{name}</p>
+    <p class:partyText={partyMode_value}>{name}</p>
 
-    <p class:partyText={partyMode}>{cursorCoordinates.x} - {cursorCoordinates.y}</p>
+    <p class:partyText={partyMode_value}>{cursorCoordinates.x} - {cursorCoordinates.y}</p>
     
-    <Textarea bind:value={textareaValue} bind:partyMode/>
+    <Textarea bind:value={textareaValue} bind:partyMode={partyMode_value}/>
 
     {#if textareaValue !== ""}
-        <p class:partyText={partyMode}>{textareaValue}</p>
+        <p class:partyText={partyMode_value}>{textareaValue}</p>
     {:else}
-        <p class:partyText={partyMode}>Aaaah! To bask in the sunlight!</p>
+        <p class:partyText={partyMode_value}>Aaaah! To bask in the sunlight!</p>
     {/if}
 
-    <input class:partyStyling={partyMode} type="text" bind:value={textareaValue}>
+    <input class:partyStyling={partyMode_value} type="text" bind:value={textareaValue}>
 
-    <button class:partyStyling={partyMode} on:click={togglePartyMode}>
-        Party Time!
-    </button>
-
-    <About recieveUpdateFromParent={count} />
+    <About bind:partyMode={partyMode_value} recieveUpdateFromParent={count_value} />
 </div>
 
 
@@ -187,11 +199,11 @@
         height: 3rem;
     }
 
-    .partyText {
+    :global(.partyText) {
         color: transparent;
         background: linear-gradient(45deg, #ffb700, #ff57a5, #353acd);
         background-size: 400% 400%;
-        animation: gradient 3s ease infinite;
+        animation: gradient 2s ease infinite;
         background-clip: text;
         -webkit-background-clip: text;
     }
@@ -199,7 +211,7 @@
     :global(.partyStyling) {
         background: linear-gradient(45deg, #ffb700, #ff57a5, #353acd);
         background-size: 400% 400%;
-        animation: gradient 3s ease infinite;
+        animation: gradient 2s ease infinite;
     }
 
     @keyframes gradient {

@@ -1,7 +1,14 @@
-<script>
+<script lang="ts">
 	import { page } from '$app/stores';
 	import logo from '$lib/images/svelte-logo.svg';
 	import github from '$lib/images/github.svg';
+	import { partyMode } from './stores';
+
+	let partyMode_value = false;
+
+    partyMode.subscribe((value: boolean): void => {
+        partyMode_value = value;
+    });
 </script>
 
 <header>
@@ -17,13 +24,13 @@
 		</svg>
 		<ul>
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-				<a href="/">Home</a>
+				<a class:partyText={partyMode_value} href="/">Home</a>
 			</li>
 			<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
-				<a href="/about">About</a>
+				<a class:partyText={partyMode_value} href="/about">About</a>
 			</li>
 			<li aria-current={$page.url.pathname === '/tutorial' ? 'page' : undefined}>
-				<a href="/tutorial">Tutorial</a>
+				<a class:partyText={partyMode_value} href="/tutorial">Tutorial</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
