@@ -1,12 +1,6 @@
 <script lang="ts">
 	import { count } from './stores';
-	import { decrement, increment } from './utils/utils.svelte';
 
-
-	const incrementAndUpdateStore = () => count.update((n: number) => increment(n));
-	const decrementAndUpdateStore = () => count.update((n: number) => decrement(n));
-
-	$: count.set($count);
 	$: offset = modulo($count, 1);
 
 	/**
@@ -20,7 +14,7 @@
 </script>
 
 <div class="counter">
-	<button on:click={decrementAndUpdateStore} aria-label="Decrease the counter by one">
+	<button on:click={count.decrement} aria-label="Decrease the counter by one">
 		<svg aria-hidden="true" viewBox="0 0 1 1">
 			<path d="M0,0.5 L1,0.5" />
 		</svg>
@@ -33,7 +27,7 @@
 		</div>
 	</div>
 
-	<button on:click={incrementAndUpdateStore} aria-label="Increase the counter by one">
+	<button on:click={count.increment} aria-label="Increase the counter by one">
 		<svg aria-hidden="true" viewBox="0 0 1 1">
 			<path d="M0,0.5 L1,0.5 M0.5,0 L0.5,1" />
 		</svg>

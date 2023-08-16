@@ -1,17 +1,19 @@
 <script lang="ts">
-    import { partyMode, count } from "../stores";
-    import Textarea from "../textarea/textarea.svelte";
+    import { Confetti } from "svelte-confetti"
+    import { partyMode, count, doubleIfParty, doubleIt, progress } from "../stores";
+    import Textarea from "../../components/textarea.svelte";
+    import PartyText from "../../components/partyText.svelte";
     import About from "../about/+page.svelte";
     import {
-        increment,
-        decrement,
         setFalse,
         convertMillisecondsToDecimalSeconds,
         convertMillisecondsToSeconds,
         onCursorMove
     } from "../utils/utils.svelte";
+	import Progressbar from "../../components/progressbar.svelte";
+	import ProgressButton from "../../components/progressButton.svelte";
+	import ToggleConfetti from "../../components/toggleConfetti.svelte";
 
-	const worldStringContainingHTML = '<strong>world</strong>';
     const src = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2hqMHcwbGc1ZWo5cHo0Nml3MTk5bDc2aWM3OGtuMTZmaHNleHZxeiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/Y4nmq4GOnLf4XIgALX/200_d.gif";
     const src2 = "https://i.dailymail.co.uk/i/pix/2017/06/06/01/41240EDA00000578-0-image-a-72_1496709824104.jpg"
 
@@ -24,14 +26,32 @@
     let timeLeftDecimalSeconds: number = 0;
     let cursorCoordinates: {x: number, y: number} = { x: 0, y: 0}
     let name: string = "Kenny";
+    let progressButtons: { percent: string, progress: number}[] = [
+        { percent: "0%", progress: 0 },
+        { percent: "25%", progress: 0.25 },
+        { percent: "50%", progress: 0.50 },
+        { percent: "75%", progress: 0.75 },
+        { percent: "100%", progress: 1 }
+    ];
     let greetList: string[] = ["Hello", "Hi", "Greetings", "Salut", "Hei", "Heisann", "Halloyen", "Hey"];
     let partyList: string[] = ["Woop woop!", "Let's gooooo!", "Time for the weekend!", "Let's enjoy the night!", "Party!", "Finally free!", "Let's dance!", "Disco!", "Yuuuuuup!"];
+    
+    $: $count, hideTextAfterTimeout();
+    $: incrementedText = `You have incremented to: ${$count} (${$doubleIfParty}) and double is: ${$doubleIt} and decremented is: `
+    $: cursorText = `${cursorCoordinates.x} - ${cursorCoordinates.y}`;
+    $: partyButtonText = !$partyMode ? 'Party Time!' : 'Make it stop, please!'
+    $: $progress, partyProgress();
 
-    const incrementAndDisplayText = () => {
-        count.update((n: number) => increment(n));
-        clicked = true;
+    const partyProgress = () => {
+        if($progress === 1)  partyMode.set(true);
     }
 
+    const clickedText = `Clicked is: ${clicked}`;
+    
+    const incrementAndDisplayText = () => {
+        count.increment();
+        clicked = true;
+    }
 
     const timeRemaining = () => {
         const interval = setInterval(function() {
@@ -70,15 +90,14 @@
         }
     }
 
-    const togglePartyMode = () => partyMode.set(!$partyMode);
-    
-    $: doubled = $count * 2;
-    $: dec = decrement($count);
-    $: $count, hideTextAfterTimeout();
+    const togglePartyMode = () => {
+        partyMode.set(!$partyMode);
+        progress.set(0);
+    };
 
     const getCoordinates = onCursorMove(cursorCoordinates);
 
-    const myPromise = new Promise((resolve, reject) => {
+    const myPromise = new Promise<string>((resolve, reject) => {
         setTimeout(() => {
             resolve("hello from over there");
     }, 1000);
@@ -94,12 +113,15 @@
 </svelte:head>
 
 <div on:pointermove|trusted={(e) => cursorCoordinates = getCoordinates(e)}>
+    {#if $partyMode} 
+        <Confetti x={[-1, 6]} y={[1, 0.1]} delay={[0, 2000]} infinite duration=5000 amount=200 fallDistance="100vh"/>
+    {/if}
 
-    <p class:partyText={$partyMode}>Hello {@html worldStringContainingHTML.toUpperCase()}!</p>
-    <p class:partyText={$partyMode}> You have incremented to: {$count} and double is: {doubled} and decremented is: {dec}</p>
-    <p class:partyText={$partyMode}> Clicked is: {clicked}</p>
+    {#each ["Hello <strong>World</strong>!", incrementedText, clickedText] as text}
+        <PartyText partyMode={$partyMode} text={text} />
+    {/each} 
     
-    <img class:partyMode={$partyMode} src={$partyMode ? src : src2} alt="fun time with an emoji, silly, tongue sticking out">
+    <img class:partyMode={$partyMode} src={$partyMode ? src : src2} alt="bored man, clicking party button changes it to woop woop">
     
     <button class:partyStyling={$partyMode} on:click|trusted={incrementAndDisplayText}>
         { !clicked ? "Click me, please!" : "Thank you!"}
@@ -109,40 +131,52 @@
         <p class="greetOnClick" aria-hidden={clicked}>Top of the morning to ya!</p>
         <p>Time left before i disappear: {timeLeftSeconds}: {timeLeftDecimalSeconds} - Milliseconds: {timeLeftMS}</p>
     {:else}
-        <p class:partyText={$partyMode}>Don't trust the button over.</p>
+        <PartyText partyMode={$partyMode} text="Don't trust the button over." />
     {/if}
 
-    <button class:partyStyling={$partyMode} on:click={togglePartyMode}>
-        {!$partyMode ? 'Party Time!' : 'Make it stop, please!'}
-    </button>
+    <ToggleConfetti>
+        <button slot="label" class:partyStyling={$partyMode} on:click={togglePartyMode}>
+            🥳 {partyButtonText} 🥳
+        </button>
+
+        {#if $partyMode} 
+            <Confetti y={[0.75, 1.5]} x={[-1, 1]} colorArray={["#D2042D"]} amount=100 />
+            <Confetti y={[1.05, 1.20]} x={[-1, 1]} colorArray={["#000000"]} amount=50 />
+            <Confetti y={[0.75, 1.5]} x={[-0.5, -0.25]} colorArray={["#000000"]} amount=20 />
+        {/if}
+    </ToggleConfetti>
+
+    <Progressbar value={$progress} />
+    {#each progressButtons as button}
+            <ProgressButton partyMode={$partyMode} on:click={(e) => progress.set(button.progress)} percent={button.percent} />
+    {/each} 
     
     {#await myPromise}
-        <p class:partyText={$partyMode}>
-            ...waiting
-        </p>
+        <PartyText partyMode={$partyMode} text="...waiting"/>
     {:then greeting}
         {#each !$partyMode ? [...greetList, greeting] : partyList as greet}
-            <p class:partyText={$partyMode}>{greet}</p>
+            <PartyText partyMode={$partyMode} text={greet} />
         {/each} 
     {/await}
 
     <input class:partyStyling={$partyMode} type="text" bind:value={name}>
 
-    <p class:partyText={$partyMode}>{name}</p>
-
-    <p class:partyText={$partyMode}>{cursorCoordinates.x} - {cursorCoordinates.y}</p>
+    {#each [name, cursorText] as text}
+        <PartyText partyMode={$partyMode} text={text} />
+    {/each}
     
     <Textarea bind:value={textareaValue} bind:partyMode={$partyMode}/>
 
     {#if textareaValue !== ""}
-        <p class:partyText={$partyMode}>{textareaValue}</p>
+        <PartyText partyMode={$partyMode} text={textareaValue} />
     {:else}
-        <p class:partyText={$partyMode}>Aaaah! To bask in the sunlight!</p>
+        <PartyText partyMode={$partyMode} text="Aaaah! To bask in the sunlight!" />
     {/if}
 
     <input class:partyStyling={$partyMode} type="text" bind:value={textareaValue}>
 
-    <About bind:partyMode={$partyMode} recieveUpdateFromParent={$count} />
+    <About partyMode={$partyMode} recieveUpdateFromParent={$count} />
+
 </div>
 
 
@@ -186,15 +220,6 @@
         margin: 3rem auto;
         width: 20rem;
         height: 3rem;
-    }
-
-    :global(.partyText) {
-        color: transparent;
-        background: linear-gradient(45deg, #ffb700, #ff57a5, #353acd);
-        background-size: 400% 400%;
-        animation: gradient 2s ease infinite;
-        background-clip: text;
-        -webkit-background-clip: text;
     }
 
     :global(.partyStyling) {
