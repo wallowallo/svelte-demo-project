@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { Confetti } from "svelte-confetti"
+    import { Confetti } from "svelte-confetti";
+    import { fade } from "svelte/transition";
     import { partyMode, count, doubleIfParty, doubleIt, progress } from "../stores";
     import Textarea from "../../components/textarea.svelte";
     import PartyText from "../../components/partyText.svelte";
@@ -35,7 +36,8 @@
     ];
     let greetList: string[] = ["Hello", "Hi", "Greetings", "Salut", "Hei", "Heisann", "Halloyen", "Hey"];
     let partyList: string[] = ["Woop woop!", "Let's gooooo!", "Time for the weekend!", "Let's enjoy the night!", "Party!", "Finally free!", "Let's dance!", "Disco!", "Yuuuuuup!"];
-    
+    let visible: boolean = false;
+
     $: $count, hideTextAfterTimeout();
     $: incrementedText = `You have incremented to: ${$count} (${$doubleIfParty}) and double is: ${$doubleIt} and decremented is: `
     $: cursorText = `${cursorCoordinates.x} - ${cursorCoordinates.y}`;
@@ -114,7 +116,7 @@
 
 <div on:pointermove|trusted={(e) => cursorCoordinates = getCoordinates(e)}>
     {#if $partyMode} 
-        <Confetti x={[-1, 6]} y={[1, 0.1]} delay={[0, 2000]} infinite duration=5000 amount=200 fallDistance="100vh"/>
+        <Confetti x={[-1, 6]} y={[1, 0.1]} delay={[0, 2000]} infinite duration={5000} amount={200} fallDistance="100vh"/>
     {/if}
 
     {#each ["Hello <strong>World</strong>!", incrementedText, clickedText] as text}
@@ -140,9 +142,9 @@
         </button>
 
         {#if $partyMode} 
-            <Confetti y={[0.75, 1.5]} x={[-1, 1]} colorArray={["#D2042D"]} amount=100 />
-            <Confetti y={[1.05, 1.20]} x={[-1, 1]} colorArray={["#000000"]} amount=50 />
-            <Confetti y={[0.75, 1.5]} x={[-0.5, -0.25]} colorArray={["#000000"]} amount=20 />
+            <Confetti y={[0.75, 1.5]} x={[-1, 1]} colorArray={["#D2042D"]} amount={100} />
+            <Confetti y={[1.05, 1.20]} x={[-1, 1]} colorArray={["#000000"]} amount={50} />
+            <Confetti y={[0.75, 1.5]} x={[-0.5, -0.25]} colorArray={["#000000"]} amount={20} />
         {/if}
     </ToggleConfetti>
 
@@ -152,11 +154,17 @@
     {/each} 
     
     {#await myPromise}
-        <PartyText partyMode={$partyMode} text="...waiting"/>
+        <div transition:fade on:introstart={() => visible = false} on:outroend={() => visible = true}>
+            <PartyText partyMode={$partyMode} text="...waiting"/>
+        </div>
     {:then greeting}
-        {#each !$partyMode ? [...greetList, greeting] : partyList as greet}
-            <PartyText partyMode={$partyMode} text={greet} />
-        {/each} 
+        {#if visible}
+            <div in:fade={{duration: 900}}>
+                {#each !$partyMode ? [...greetList, greeting] : partyList as greet}
+                    <PartyText partyMode={$partyMode} text={greet} />
+                {/each} 
+            </div>
+        {/if}
     {/await}
 
     <input class:partyStyling={$partyMode} type="text" bind:value={name}>
