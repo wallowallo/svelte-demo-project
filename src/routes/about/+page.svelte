@@ -25,10 +25,5 @@
 		the devtools network panel and reloading.
 	</p>
 
-	<p class:partyText={partyMode}>
-		The <a href="/sverdle">Sverdle</a> page illustrates SvelteKit's data loading and form handling. Try
-		using it with JavaScript disabled!
-	</p>
-
 	<p class:partyText={partyMode}>This has been sent from parent: {recieveUpdateFromParent}</p>
 </div>
