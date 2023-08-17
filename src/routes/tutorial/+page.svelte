@@ -1,4 +1,7 @@
+<svelte:options immutable />
 <script lang="ts">
+    import { setContext } from "svelte";
+    import { writable } from "svelte/store";
     import { Confetti } from "svelte-confetti";
     import { fade } from "svelte/transition";
     import { onMount } from "svelte";
@@ -20,6 +23,7 @@
     const src = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2hqMHcwbGc1ZWo5cHo0Nml3MTk5bDc2aWM3OGtuMTZmaHNleHZxeiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/Y4nmq4GOnLf4XIgALX/200_d.gif";
     const src2 = "https://i.dailymail.co.uk/i/pix/2017/06/06/01/41240EDA00000578-0-image-a-72_1496709824104.jpg"
 
+    let howManyArrays: number = 1;
     let textareaValue: string = "";
     let clicked: boolean = false;
     let timeouts: number[] = [];
@@ -42,28 +46,18 @@
     let i = -1;
 
     $: $count, hideTextAfterTimeout();
-    $: incrementedText = `You have incremented to: ${$count} (${$doubleIfParty}) and double is: ${$doubleIt} and decremented is: `
+    $: incrementedText = `You have incremented to: ${$count} (${$doubleIfParty}) and double is: ${$doubleIt}`
     $: cursorText = `${cursorCoordinates.x} - ${cursorCoordinates.y}`;
-    $: partyButtonText = !$partyMode ? 'Party Time!' : 'Make it stop, please!'
     $: $progress, partyProgress();
+    $: partyButtonText = !$partyMode ? 'Party Time!' : 'Make it stop, please!'
+    $: clickedText = `Clicked is: ${clicked}`;
+    $: clicked, setContext('clicked', writable(clicked))
 
-    onMount(() =>{
-        const interval = setInterval(() => {i+=1, console.log(i)}, 5000);
-
-        return () => clearInterval(interval);
-    })
-
-    const reRenderAboutSectionOnInterval = () => {
-        const interval = setInterval(() => i+=1, 6000);
-
-        return () => clearInterval(interval);
-    }
 
     const partyProgress = () => {
         if($progress === 1)  partyMode.set(true);
+        else  partyMode.set(false);
     }
-
-    const clickedText = `Clicked is: ${clicked}`;
     
     const incrementAndDisplayText = () => {
         count.increment();
@@ -108,8 +102,8 @@
     }
 
     const togglePartyMode = () => {
+        if ($partyMode === true) progress.set(0);
         partyMode.set(!$partyMode);
-        progress.set(0);
     };
 
     const getCoordinates = onCursorMove(cursorCoordinates);
@@ -135,7 +129,7 @@
     {/if}
 
     {#each ["Hello <strong>World</strong>!", incrementedText, clickedText] as text}
-        <PartyText partyMode={$partyMode} text={text} />
+        <PartyText --text-color="skyblue" partyMode={$partyMode} text={text} />
     {/each} 
     
     <img class:partyMode={$partyMode} src={$partyMode ? src : src2} alt="bored man, clicking party button changes it to woop woop">
@@ -148,7 +142,7 @@
         <p in:typewriter={({speed: 1})} class="greetOnClick" aria-hidden={clicked}>Top of the morning to ya!</p>
         <p >Time left before i disappear: {timeLeftSeconds}: {timeLeftDecimalSeconds} - Milliseconds: {timeLeftMS}</p>
     {:else}
-        <PartyText partyMode={$partyMode} text="Don't trust the button over." />
+        <PartyText --text-color="violet" partyMode={$partyMode} text="Don't trust the button over." />
     {/if}
 
     <ToggleConfetti>
@@ -163,7 +157,10 @@
         {/if}
     </ToggleConfetti>
 
-    <Progressbar value={$progress} />
+    {#key $progress}
+        <Progressbar value={$progress} />
+    {/key}
+
     {#each progressButtons as button}
             <ProgressButton partyMode={$partyMode} on:click={(e) => progress.set(button.progress)} percent={button.percent} />
     {/each} 
@@ -176,7 +173,7 @@
         {#if visible}
             <div in:fade={{duration: 900}}>
                 {#each !$partyMode ? [...greetList, greeting] : partyList as greet}
-                    <PartyText partyMode={$partyMode} text={greet} />
+                    <PartyText --text-color="pink" partyMode={$partyMode} text={greet} />
                 {/each} 
             </div>
         {/if}
@@ -188,7 +185,18 @@
         <PartyText partyMode={$partyMode} text={text} />
     {/each}
     
-    <Textarea bind:value={textareaValue} bind:partyMode={$partyMode}/>
+
+    <p>How many textareas do you want?</p>
+    <input class:partyStyling={$partyMode} type="number" bind:value={howManyArrays} min=1 max=10>
+
+    {#if howManyArrays <=10 }
+        {#each Array(howManyArrays).fill('') as areas}
+            <Textarea bind:value={textareaValue} bind:partyMode={$partyMode}/>
+        {/each}
+    {:else}
+        <p>YOU WANT TOO MANY, GOD DAMN, AREAS!</p>
+        <Textarea bind:value={textareaValue} bind:partyMode={$partyMode}/>
+    {/if}
 
     {#if textareaValue !== ""}
         <PartyText partyMode={$partyMode} text={textareaValue} />
@@ -198,9 +206,17 @@
 
     <input class:partyStyling={$partyMode} type="text" bind:value={textareaValue}>
 
-    {#key i}
-        <About partyMode={$partyMode} recieveUpdateFromParent={$count} />
+    {#key clicked}
+        <About partyMode={$partyMode} recieveUpdateFromParent={$count} let:text>
+            <p slot="top">Look im at the top!</p>
+            <p>{text}</p>
+            <p slot="bottom" in:typewriter={{speed: 10}}>Even if im bottom, i can still do this</p>
+        </About>
     {/key}
+
+    <button class:partyStyling={$partyMode} on:click|trusted={incrementAndDisplayText}>
+        { !clicked ? "Click me, please!" : "Thank you!"}
+    </button>
 
 </div>
 

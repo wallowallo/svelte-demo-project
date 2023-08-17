@@ -8,12 +8,13 @@
 <style>
 
     p {
+        color: var(--text-color, #ffffff);
         margin: 5px auto;
         width: 30rem;
         text-align: center;
     }
 
-    :global(.partyText) {
+    :global(p.partyText, h1.partyText) {
         color: transparent;
         background: linear-gradient(45deg, #ffb700, #ff57a5, #353acd);
         background-size: 400% 400%;
