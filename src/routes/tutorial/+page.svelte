@@ -1,11 +1,13 @@
 <script lang="ts">
     import { Confetti } from "svelte-confetti";
     import { fade } from "svelte/transition";
+    import { onMount } from "svelte";
     import { partyMode, count, doubleIfParty, doubleIt, progress } from "../stores";
     import Textarea from "../../components/textarea.svelte";
     import PartyText from "../../components/partyText.svelte";
     import About from "../about/+page.svelte";
     import {
+        typewriter,
         setFalse,
         convertMillisecondsToDecimalSeconds,
         convertMillisecondsToSeconds,
@@ -37,12 +39,25 @@
     let greetList: string[] = ["Hello", "Hi", "Greetings", "Salut", "Hei", "Heisann", "Halloyen", "Hey"];
     let partyList: string[] = ["Woop woop!", "Let's gooooo!", "Time for the weekend!", "Let's enjoy the night!", "Party!", "Finally free!", "Let's dance!", "Disco!", "Yuuuuuup!"];
     let visible: boolean = false;
+    let i = -1;
 
     $: $count, hideTextAfterTimeout();
     $: incrementedText = `You have incremented to: ${$count} (${$doubleIfParty}) and double is: ${$doubleIt} and decremented is: `
     $: cursorText = `${cursorCoordinates.x} - ${cursorCoordinates.y}`;
     $: partyButtonText = !$partyMode ? 'Party Time!' : 'Make it stop, please!'
     $: $progress, partyProgress();
+
+    onMount(() =>{
+        const interval = setInterval(() => {i+=1, console.log(i)}, 5000);
+
+        return () => clearInterval(interval);
+    })
+
+    const reRenderAboutSectionOnInterval = () => {
+        const interval = setInterval(() => i+=1, 6000);
+
+        return () => clearInterval(interval);
+    }
 
     const partyProgress = () => {
         if($progress === 1)  partyMode.set(true);
@@ -73,25 +88,6 @@
             intervals.slice(0, -1).forEach((num: number) => clearInterval(num));
             intervals = [interval]
         } 
-    }
-
-    const typewriter = (node: any, {speed = 1}) => {
-        const valid = node.childNodes.length === 1 && node.childNodes[0].nodeType === Node.TEXT_NODE;
-
-        if (!valid) {
-            throw new Error(`This transition only works on elements with a single text node child`);
-        }
-
-        const text = node.textContent;
-        const duration = text.length / (speed * 0.01);
-
-        return {
-            duration,
-            tick: (t: any) => {
-                const i = Math.trunc(text.length * t);
-                node.textContent = text.slice(0, i);
-            }
-        };
     }
 
     const hideTextAfterTimeout = () => {
@@ -149,7 +145,7 @@
     </button>
     
     {#if clicked}
-        <p transition:typewriter={({speed: 1})} class="greetOnClick" aria-hidden={clicked}>Top of the morning to ya!</p>
+        <p in:typewriter={({speed: 1})} class="greetOnClick" aria-hidden={clicked}>Top of the morning to ya!</p>
         <p >Time left before i disappear: {timeLeftSeconds}: {timeLeftDecimalSeconds} - Milliseconds: {timeLeftMS}</p>
     {:else}
         <PartyText partyMode={$partyMode} text="Don't trust the button over." />
@@ -202,7 +198,9 @@
 
     <input class:partyStyling={$partyMode} type="text" bind:value={textareaValue}>
 
-    <About partyMode={$partyMode} recieveUpdateFromParent={$count} />
+    {#key i}
+        <About partyMode={$partyMode} recieveUpdateFromParent={$count} />
+    {/key}
 
 </div>
 
