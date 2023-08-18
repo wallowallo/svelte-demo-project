@@ -3,7 +3,6 @@
     import { setContext } from "svelte";
     import { writable } from "svelte/store";
     import { Confetti } from "svelte-confetti";
-    import { onMount } from "svelte";
     import { fade } from "svelte/transition"; 
     import { partyMode, count, doubleIfParty, doubleIt, progress } from "../stores";
     import Textarea from "../../components/textarea.svelte";
@@ -63,10 +62,6 @@
         count.increment();
         clicked = true;
     }
-
-    onMount(() => {
-        count.reset();
-    })
 
     const timeRemaining = () => {
         const interval = setInterval(function() {
