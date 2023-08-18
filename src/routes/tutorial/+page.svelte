@@ -224,7 +224,7 @@
     {/each}
     
 
-    <p>How many textareas do you want?</p>
+    <p class="giveMeSpace">How many textareas do you want?</p>
     <input class:partyStyling={$partyMode} type="number" bind:value={howManyArrays} min=1 max=10>
 
     {#if howManyArrays <=10 }
@@ -286,6 +286,10 @@
 
     p.greetOnClick {
         color: blueviolet;
+    }
+
+    p.giveMeSpace {
+        margin-top: 4rem;
     }
 
     p {
