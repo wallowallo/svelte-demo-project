@@ -152,22 +152,31 @@
 
         {#if $partyMode}
             <NorwegianConfettiFlag 
-                redYValues={{bottom: 1.75, top: 2.5}}
-                redXValues={{left: -1, right: 1}}
+                redYValues={{bottom: -1.75, top: 2.5}}
+                redXValues={{left: -4, right: 4}}
 
-                whiteYValues={{bottom: 2.05, top: 2.20}}
-                whiteYValues2={{bottom: 1.75, top: 2.5}}
-                whiteXValues={{left: -1, right: 1}}
-                whiteXValues2={{left: -0.5, right: -0.25}}
+                whiteYValues={{bottom: 0, top: 1.20}}
+                whiteYValues2={{bottom: -1.75, top: 2.5}}
+                whiteXValues={{left: -4, right: 4}}
+                whiteXValues2={{left: -1.5, right: -0.2}}
 
-                blueYValues={{bottom: 2.1, top: 2.15}}
-                blueYValues2={{bottom: 1.75, top: 2.5}}
-                blueXValues={{left: -1, right: 1}}
-                blueXValues2={{left: -0.45, right: -0.20}}
+                blueYValues={{bottom: 0.2, top: 1}}
+                blueYValues2={{bottom: -1.75, top: 2.5}}
+                blueXValues={{left: -4, right: 4}}
+                blueXValues2={{left: -1.30, right: -0.40}}
+
+                redConfettiAmount={1000}
+
+                whiteConfettiAmount={500}
+                whiteConfettiAmount2={300}
+
+                blueConfettiAmount={300}
+                blueConfettiAmount2={200}
+
 
             />
 
-            <NorwegianConfettiFlag 
+            <!-- <NorwegianConfettiFlag 
                 redYValues={{bottom: 0.75, top: 1.5}}
                 redXValues={{left: -1, right: 1}}
 
@@ -181,7 +190,7 @@
                 blueXValues={{left: -1, right: 1}}
                 blueXValues2={{left: -0.45, right: -0.20}}
 
-            />
+            /> -->
         {/if}
     </ToggleConfetti>
 
