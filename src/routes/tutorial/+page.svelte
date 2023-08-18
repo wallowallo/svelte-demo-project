@@ -151,13 +151,13 @@
 
         {#if $partyMode} 
             <!-- red -->
-            <Confetti y={[0.75, 1.5]} x={[-1, 1]} colorArray={["#D2042D"]} amount={1000} />
+            <Confetti y={[0.75, 1.5]} x={[-1, 1]} colorArray={["#D2042D"]} amount={500} />
             <!-- white -->
             <Confetti y={[1.05, 1.20]} x={[-1, 1]} colorArray={["#ffffff"]} amount={200} />
             <Confetti y={[0.75, 1.5]} x={[-0.5, -0.25]} colorArray={["#ffffff"]} amount={100} />
             <!-- blue -->
-            <Confetti y={[1.05, 1.20]} x={[-1, 1]} colorArray={["#00008B"]} amount={200} />
-            <Confetti y={[0.75, 1.5]} x={[-0.2, -0.1]} colorArray={["#00008B"]} amount={100} />
+            <Confetti y={[1.1, 1.15]} x={[-1, 1]} colorArray={["#00008B"]} amount={200} />
+            <Confetti y={[0.75, 1.5]} x={[-0.45, -0.20]} colorArray={["#00008B"]} amount={100} />
         {/if}
     </ToggleConfetti>
 
