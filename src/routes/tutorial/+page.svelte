@@ -1,6 +1,7 @@
 <svelte:options immutable />
 <script lang="ts">
     import { setContext } from "svelte";
+    import NorwegianConfettiFlag from "../../components/norwegianConfettiFlag.svelte";
     import { writable } from "svelte/store";
     import { Confetti } from "svelte-confetti";
     import { fade } from "svelte/transition"; 
@@ -149,15 +150,38 @@
             🥳 {partyButtonText} 🥳
         </button>
 
-        {#if $partyMode} 
-            <!-- red -->
-            <Confetti y={[0.75, 1.5]} x={[-1, 1]} colorArray={["#D2042D"]} amount={500} />
-            <!-- white -->
-            <Confetti y={[1.05, 1.20]} x={[-1, 1]} colorArray={["#ffffff"]} amount={200} />
-            <Confetti y={[0.75, 1.5]} x={[-0.5, -0.25]} colorArray={["#ffffff"]} amount={100} />
-            <!-- blue -->
-            <Confetti y={[1.1, 1.15]} x={[-1, 1]} colorArray={["#00008B"]} amount={200} />
-            <Confetti y={[0.75, 1.5]} x={[-0.45, -0.20]} colorArray={["#00008B"]} amount={100} />
+        {#if $partyMode}
+            <NorwegianConfettiFlag 
+                redYValues={{bottom: 1.75, top: 2.5}}
+                redXValues={{left: -1, right: 1}}
+
+                whiteYValues={{bottom: 2.05, top: 2.20}}
+                whiteYValues2={{bottom: 1.75, top: 2.5}}
+                whiteXValues={{left: -1, right: 1}}
+                whiteXValues2={{left: -0.5, right: -0.25}}
+
+                blueYValues={{bottom: 2.1, top: 2.15}}
+                blueYValues2={{bottom: 1.75, top: 2.5}}
+                blueXValues={{left: -1, right: 1}}
+                blueXValues2={{left: -0.45, right: -0.20}}
+
+            />
+
+            <NorwegianConfettiFlag 
+                redYValues={{bottom: 0.75, top: 1.5}}
+                redXValues={{left: -1, right: 1}}
+
+                whiteYValues={{bottom: 1.05, top: 1.20}}
+                whiteYValues2={{bottom: 0.75, top: 1.5}}
+                whiteXValues={{left: -1, right: 1}}
+                whiteXValues2={{left: -0.5, right: -0.25}}
+
+                blueYValues={{bottom: 1.1, top: 1.15}}
+                blueYValues2={{bottom: 0.75, top: 1.5}}
+                blueXValues={{left: -1, right: 1}}
+                blueXValues2={{left: -0.45, right: -0.20}}
+
+            />
         {/if}
     </ToggleConfetti>
 
