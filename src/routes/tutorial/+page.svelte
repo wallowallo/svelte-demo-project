@@ -1,14 +1,19 @@
 <svelte:options immutable />
 <script lang="ts">
     import { setContext } from "svelte";
-    import NorwegianConfettiFlag from "../../components/norwegianConfettiFlag.svelte";
     import { writable } from "svelte/store";
     import { Confetti } from "svelte-confetti";
     import { fade } from "svelte/transition"; 
+    
     import { partyMode, count, doubleIfParty, doubleIt, progress } from "../stores";
+
+    import NorwegianConfettiFlag from "../../components/norwegianConfettiFlag.svelte";
     import Textarea from "../../components/textarea.svelte";
     import PartyText from "../../components/partyText.svelte";
-    import About from "../about/+page.svelte";
+    import Progressbar from "../../components/progressbar.svelte";
+    import ProgressButton from "../../components/progressButton.svelte";
+    import ToggleConfetti from "../../components/toggleConfetti.svelte";
+    import About from "../about/+page.svelte";  
     import {
         typewriter,
         setFalse,
@@ -16,9 +21,6 @@
         convertMillisecondsToSeconds,
         onCursorMove
     } from "../utils/utils.svelte";
-	import Progressbar from "../../components/progressbar.svelte";
-	import ProgressButton from "../../components/progressButton.svelte";
-	import ToggleConfetti from "../../components/toggleConfetti.svelte";
 
     const src = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2hqMHcwbGc1ZWo5cHo0Nml3MTk5bDc2aWM3OGtuMTZmaHNleHZxeiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/Y4nmq4GOnLf4XIgALX/200_d.gif";
     const src2 = "https://i.dailymail.co.uk/i/pix/2017/06/06/01/41240EDA00000578-0-image-a-72_1496709824104.jpg"
@@ -43,7 +45,6 @@
     let greetList: string[] = ["Hello", "Hi", "Greetings", "Salut", "Hei", "Heisann", "Halloyen", "Hey"];
     let partyList: string[] = ["Woop woop!", "Let's gooooo!", "Time for the weekend!", "Let's enjoy the night!", "Party!", "Finally free!", "Let's dance!", "Disco!", "Yuuuuuup!"];
     let visible: boolean = false;
-    let i = -1;
 
     $: $count, hideTextAfterTimeout();
     $: incrementedText = `You have incremented to: ${$count} (${$doubleIfParty}) and double is: ${$doubleIt}`
@@ -112,7 +113,6 @@
         setTimeout(() => {
             resolve("hello from over there");
     }, 1000);
-
 });
 
 </script>
@@ -176,6 +176,7 @@
 
             />
 
+            <!-- small norwegian flag -->
             <!-- <NorwegianConfettiFlag 
                 redYValues={{bottom: 0.75, top: 1.5}}
                 redXValues={{left: -1, right: 1}}
@@ -231,7 +232,7 @@
             <Textarea bind:value={textareaValue} bind:partyMode={$partyMode}/>
         {/each}
     {:else}
-        <p>YOU WANT TOO MANY, GOD DAMN, AREAS!</p>
+        <PartyText --text-color="red" text={"Greedy with text areas are we?"} />
         <Textarea bind:value={textareaValue} bind:partyMode={$partyMode}/>
     {/if}
 
