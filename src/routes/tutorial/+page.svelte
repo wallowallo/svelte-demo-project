@@ -4,7 +4,6 @@
     import { writable } from "svelte/store";
     import { Confetti } from "svelte-confetti";
     import { fade } from "svelte/transition";
-    import { onMount } from "svelte";
     import { partyMode, count, doubleIfParty, doubleIt, progress } from "../stores";
     import Textarea from "../../components/textarea.svelte";
     import PartyText from "../../components/partyText.svelte";
