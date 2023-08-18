@@ -3,7 +3,8 @@
     import { setContext } from "svelte";
     import { writable } from "svelte/store";
     import { Confetti } from "svelte-confetti";
-    import { fade } from "svelte/transition";
+    import { onMount } from "svelte";
+    import { fade } from "svelte/transition"; 
     import { partyMode, count, doubleIfParty, doubleIt, progress } from "../stores";
     import Textarea from "../../components/textarea.svelte";
     import PartyText from "../../components/partyText.svelte";
@@ -62,6 +63,10 @@
         count.increment();
         clicked = true;
     }
+
+    onMount(() => {
+        count.reset();
+    })
 
     const timeRemaining = () => {
         const interval = setInterval(function() {
@@ -151,8 +156,8 @@
 
         {#if $partyMode} 
             <Confetti y={[0.75, 1.5]} x={[-1, 1]} colorArray={["#D2042D"]} amount={100} />
-            <Confetti y={[1.05, 1.20]} x={[-1, 1]} colorArray={["#000000"]} amount={50} />
-            <Confetti y={[0.75, 1.5]} x={[-0.5, -0.25]} colorArray={["#000000"]} amount={20} />
+            <Confetti y={[1.05, 1.20]} x={[-1, 1]} colorArray={["#ffffff"]} amount={50} />
+            <Confetti y={[0.75, 1.5]} x={[-0.5, -0.25]} colorArray={["#ffffff"]} amount={20} />
         {/if}
     </ToggleConfetti>
 
