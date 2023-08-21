@@ -1,7 +1,6 @@
 <script lang="ts">
     import Confetti from "svelte-confetti";
-    interface XCoordinates { left: number, right: number };
-    interface YCoordinates { bottom: number, top: number };
+    import type { XCoordinates, YCoordinates } from "../models/models";
     // x
     export let redXValues: XCoordinates  = {left: 0, right: 0};
 

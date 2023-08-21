@@ -1,11 +1,34 @@
+<script context="module" lang="ts">
+	import type { TextareaObj } from "../models/models";
+	let array: TextareaObj[] = []; 
+</script>
+
 <script lang="ts">
 	import { debounce } from "../routes/utils/utils.svelte";
+	export let textAreaObjs = array;
 	export let partyMode: boolean = false;
     export let value: string = "";
+	export let idx: number = 0;
+
+	const textareaObject: TextareaObj = { idx, text: ""}
 	let typedIn: boolean = false;
 
 	$: typedInArea = typedIn;
 	$: myValue = value;
+	$: updateTextInArray(myValue);
+
+	const initializeArray = () => {
+		array = [...array, textareaObject];
+	};
+
+	initializeArray();
+
+	const setIndex = (idx: number) => (val: string) => {
+		array[idx].text = val;
+		textAreaObjs = [...array];
+	};
+
+	const updateTextInArray = setIndex(idx);
 
 	const setFalse = () => typedIn = false;
 	const setTrue = () => typedIn = true;

@@ -21,20 +21,21 @@
         convertMillisecondsToSeconds,
         onCursorMove
     } from "../utils/utils.svelte";
+	import type { TextareaObj } from "../../models/models";
 
     const src = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2hqMHcwbGc1ZWo5cHo0Nml3MTk5bDc2aWM3OGtuMTZmaHNleHZxeiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/Y4nmq4GOnLf4XIgALX/200_d.gif";
     const src2 = "https://i.dailymail.co.uk/i/pix/2017/06/06/01/41240EDA00000578-0-image-a-72_1496709824104.jpg"
 
-    let howManyArrays: number = 1;
     let textareaValue: string = "";
-    let clicked: boolean = false;
+    let name: string = "Kenny";
+    
+    let howManyArrays: number = 1;
     let timeouts: number[] = [];
     let intervals: number[] = [];
     let timeLeftMS: number = 0;
     let timeLeftSeconds: number = 0;
     let timeLeftDecimalSeconds: number = 0;
     let cursorCoordinates: {x: number, y: number} = { x: 0, y: 0}
-    let name: string = "Kenny";
     let progressButtons: { percent: string, progress: number}[] = [
         { percent: "0%", progress: 0 },
         { percent: "25%", progress: 0.25 },
@@ -44,6 +45,9 @@
     ];
     let greetList: string[] = ["Hello", "Hi", "Greetings", "Salut", "Hei", "Heisann", "Halloyen", "Hey"];
     let partyList: string[] = ["Woop woop!", "Let's gooooo!", "Time for the weekend!", "Let's enjoy the night!", "Party!", "Finally free!", "Let's dance!", "Disco!", "Yuuuuuup!"];
+    let textAreaObjs: TextareaObj[] = []
+
+    let clicked: boolean = false;
     let visible: boolean = false;
 
     $: $count, hideTextAfterTimeout();
@@ -52,8 +56,10 @@
     $: $progress, partyProgress();
     $: partyButtonText = !$partyMode ? 'Party Time!' : 'Make it stop, please!'
     $: clickedText = `Clicked is: ${clicked}`;
-    $: clicked, setContext('clicked', writable(clicked))
+    $: clicked, setContext('clicked', writable(clicked));
+    $: textAreaCombinedString = concatAndCombineTextareaText(textAreaObjs);
 
+    const concatAndCombineTextareaText = (textObjs: TextareaObj[]) => textObjs.map((x) => x.text.concat('')).reduce((acc, str) => `${acc} ${str}`, "");
 
     const partyProgress = () => {
         if($progress === 1)  partyMode.set(true);
@@ -228,12 +234,12 @@
     <input class:partyStyling={$partyMode} type="number" bind:value={howManyArrays} min=1 max=10>
 
     {#if howManyArrays <=10 }
-        {#each Array(howManyArrays).fill('') as areas}
-            <Textarea bind:value={textareaValue} bind:partyMode={$partyMode}/>
+        {#each Array(howManyArrays).fill('') as areas, idx}
+            <Textarea bind:value={textareaValue} bind:partyMode={$partyMode} {idx} bind:textAreaObjs />
         {/each}
     {:else}
         <PartyText --text-color="red" text={"Greedy with text areas are we?"} />
-        <Textarea bind:value={textareaValue} bind:partyMode={$partyMode}/>
+        <Textarea bind:value={textareaValue} bind:partyMode={$partyMode} />
     {/if}
 
     {#if textareaValue !== ""}
@@ -244,6 +250,14 @@
 
     <input class:partyStyling={$partyMode} type="text" bind:value={textareaValue}>
 
+    {#each textAreaObjs as obj}
+        {#if obj.text !== ""}
+            <PartyText text={obj.text} />
+
+        {/if}
+    {/each}
+            
+    <PartyText text={`All textareas combined: ${textAreaCombinedString}`} />
     {#key clicked}
         <About partyMode={$partyMode} recieveUpdateFromParent={$count} let:text>
             <p slot="top">Look im at the top!</p>
