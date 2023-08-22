@@ -8,6 +8,7 @@
     import { partyMode, count, doubleIfParty, doubleIt, progress } from "../stores";
 
     import NorwegianConfettiFlag from "../../components/norwegianConfettiFlag.svelte";
+    import RainbowAnimation from "../../components/rainbowAnimation.svelte";
     import Textarea from "../../components/textarea.svelte";
     import PartyText from "../../components/partyText.svelte";
     import Progressbar from "../../components/progressbar.svelte";
@@ -21,6 +22,7 @@
         convertMillisecondsToSeconds,
         onCursorMove
     } from "../utils/utils.svelte";
+
 	import type { TextareaObj } from "../../models/models";
 
     const src = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2hqMHcwbGc1ZWo5cHo0Nml3MTk5bDc2aWM3OGtuMTZmaHNleHZxeiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/Y4nmq4GOnLf4XIgALX/200_d.gif";
@@ -130,9 +132,15 @@
 </svelte:head>
 
 <div on:pointermove|trusted={(e) => cursorCoordinates = getCoordinates(e)}>
+    <RainbowAnimation />
+
     {#if $partyMode} 
         <Confetti x={[-1, 6]} y={[1, 0.1]} delay={[0, 2000]} infinite duration={5000} amount={200} fallDistance="100vh"/>
     {/if}
+
+    <div class="headerContainer">
+        <h1 class="welcome">Welcome to my humble abode!</h1>
+    </div>
 
     {#each ["Hello <strong>World</strong>!", incrementedText, clickedText] as text}
         <PartyText --text-color="skyblue" partyMode={$partyMode} text={text} />
@@ -252,8 +260,7 @@
 
     {#each textAreaObjs as obj}
         {#if obj.text !== ""}
-            <PartyText text={obj.text} />
-
+            <PartyText partyMode={$partyMode} text={obj.text} />
         {/if}
     {/each}
             
@@ -275,6 +282,20 @@
 
 
 <style>
+    div.headerContainer {
+        background-color: transparent;
+        display: flex;
+        position: absolute;
+        top: 10rem;
+        left: 30vw;
+        width: 40vw;
+    }
+
+    h1.welcome {
+        color: transparent;
+        -webkit-text-stroke: 2px rgb(98, 255, 239);
+        font-size: 80px;
+    }
     div {
         display: block;
     }
