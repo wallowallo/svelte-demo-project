@@ -132,19 +132,19 @@
 <div on:pointermove|trusted={(e) => cursorCoordinates = getCoordinates(e)}>
     <RainbowAnimation />
 
-    {#if $partyMode} 
-        <Confetti x={[-1, 6]} y={[1, 0.1]} delay={[0, 2000]} infinite duration={5000} amount={200} fallDistance="100vh"/>
-    {/if}
-
     <div class="headerContainer">
         <h1 class="welcome">Welcome to my humble abode!</h1>
     </div>
 
-    {#each ["Hello <strong>World</strong>!", incrementedText, clickedText] as text}
+    {#if $partyMode} 
+        <Confetti x={[-1, 6]} y={[1, 0.1]} delay={[0, 2000]} infinite duration={5000} amount={200} fallDistance="100vh"/>
+        <img class:partyMode={$partyMode} src={preloadedImages[0]} alt="bored man, clicking party button changes it to woop woop">
+    {/if}
+
+    {#each ["Hello <strong>UserX</strong>!", incrementedText, clickedText] as text}
         <PartyText --text-color="skyblue" partyMode={$partyMode} text={text} />
     {/each} 
     
-    <img class:partyMode={$partyMode} src={$partyMode ? preloadedImages[0] : preloadedImages[1]} alt="bored man, clicking party button changes it to woop woop">
     
     <button class:partyStyling={$partyMode} on:click|trusted={incrementAndDisplayText}>
         { !clicked ? "Click me, please!" : "Thank you!"}
@@ -290,7 +290,7 @@
     }
 
     h1.welcome {
-        color: transparent;
+        color: black;
         -webkit-text-stroke: 2px rgb(0 255 255);
         font-size: 90px;
     }
