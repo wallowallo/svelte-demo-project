@@ -27,7 +27,7 @@
         display: flex;
         width: 14rem;
         height: 30rem;
-        margin: 0 auto;
+        margin: 2.5rem auto 5rem auto;
     }
 
     .overlay {

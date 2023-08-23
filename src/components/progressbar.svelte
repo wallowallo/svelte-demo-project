@@ -28,8 +28,23 @@
 <progress {value} />
 
 <style>
+    p {
+        width: 10rem;
+        margin: 0 25.5%;
+    }
     progress {
-        width: 100%;
+        display: block;
         height: 2rem;
+        border-radius: 7px; 
+        width: 50%;
+        margin: 2rem 25%;
+    }
+    progress::-webkit-progress-bar {
+        background-color: rgba(255, 255, 255, var(--opacity));
+        border-radius: 20px;
+    }
+    progress::-webkit-progress-value {
+        background-color: var(--color-text4);
+        border-radius: 20px;
     }
 </style>

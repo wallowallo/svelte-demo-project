@@ -56,8 +56,12 @@
 
 <style>
     textarea {
-		width: 100%;
+		padding: 1rem;
+		width: 50%;
 		height: 100%;
 		resize: none;
+		margin: 0 25%;
+		background-color: rgba(255, 255, 255, var(--opacity));
+		font-size: 18px;
 	}
 </style>

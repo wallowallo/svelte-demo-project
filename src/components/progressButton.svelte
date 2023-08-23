@@ -7,8 +7,11 @@
 
 <style>
     button {
+        display: inline;
         margin-left: 2rem;
         margin-bottom: 2rem;
-        width: 6rem;
+        width: 5rem;
+        height: 2rem;
+        background-color: rgba(255, 255, 255, var(--opacity));
     }
 </style>
