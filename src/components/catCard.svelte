@@ -31,7 +31,7 @@
     }
 
     div.descriptionContainer {
-        border-top: 1px solid var(--color-text4);
+        border-top: 1px solid var(--color-text3);
         width: 100%;
         padding: 2rem;
         height: 6rem;
@@ -39,7 +39,7 @@
     }
 
     div.catCardContainer {
-        background-color: rgba(255, 255, 255, var(--opacity));
+        background-color: var(--color-text4);
         display: inline-grid;
         width: 30rem;
         border: 1px solid var(--color-text);
