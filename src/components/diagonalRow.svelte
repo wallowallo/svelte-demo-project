@@ -2,8 +2,9 @@
 
 <style>
     .diagonalRow {
-        width: 3rem;
+        width: 2rem;
         height: 30rem;
+        margin-right: -1px;
         border: 1px white solid;
         background: linear-gradient(var(--degree, -45deg), var(--color), var(--color), var(--color), var(--color2, white), var(--color3, white),var(--color),var(--color), var(--color));
         transform: skew(var(--degree, -45deg));

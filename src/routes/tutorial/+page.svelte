@@ -303,6 +303,7 @@
         margin: 0 auto;
         width: 50%;
         height: 50%;
+        aspect-ratio: 16/9;
     }
 
     img.partyMode {
