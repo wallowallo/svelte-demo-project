@@ -25,9 +25,6 @@
 
 	import type { TextareaObj } from "../../models/models";
 
-    const src = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2hqMHcwbGc1ZWo5cHo0Nml3MTk5bDc2aWM3OGtuMTZmaHNleHZxeiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/Y4nmq4GOnLf4XIgALX/200_d.gif";
-    const src2 = "https://i.dailymail.co.uk/i/pix/2017/06/06/01/41240EDA00000578-0-image-a-72_1496709824104.jpg"
-
     let textareaValue: string = "";
     let name: string = "Kenny";
     
@@ -60,6 +57,7 @@
     $: clickedText = `Clicked is: ${clicked}`;
     $: clicked, setContext('clicked', writable(clicked));
     $: textAreaCombinedString = concatAndCombineTextareaText(textAreaObjs);
+    $: preloadedImages = ["https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2hqMHcwbGc1ZWo5cHo0Nml3MTk5bDc2aWM3OGtuMTZmaHNleHZxeiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/Y4nmq4GOnLf4XIgALX/200_d.gif", "https://i.dailymail.co.uk/i/pix/2017/06/06/01/41240EDA00000578-0-image-a-72_1496709824104.jpg"]
 
     const concatAndCombineTextareaText = (textObjs: TextareaObj[]) => textObjs.map((x) => x.text.concat('')).reduce((acc, str) => `${acc} ${str}`, "");
 
@@ -146,7 +144,7 @@
         <PartyText --text-color="skyblue" partyMode={$partyMode} text={text} />
     {/each} 
     
-    <img class:partyMode={$partyMode} src={$partyMode ? src : src2} alt="bored man, clicking party button changes it to woop woop">
+    <img class:partyMode={$partyMode} src={$partyMode ? preloadedImages[0] : preloadedImages[1]} alt="bored man, clicking party button changes it to woop woop">
     
     <button class:partyStyling={$partyMode} on:click|trusted={incrementAndDisplayText}>
         { !clicked ? "Click me, please!" : "Thank you!"}
@@ -286,15 +284,15 @@
         background-color: transparent;
         display: flex;
         position: absolute;
-        top: 10rem;
+        top: 9rem;
         left: 30vw;
         width: 40vw;
     }
 
     h1.welcome {
         color: transparent;
-        -webkit-text-stroke: 2px rgb(98, 255, 239);
-        font-size: 80px;
+        -webkit-text-stroke: 2px rgb(0 255 255);
+        font-size: 90px;
     }
     div {
         display: block;
