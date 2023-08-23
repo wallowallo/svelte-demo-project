@@ -1,17 +1,34 @@
 <script lang="ts">
     export let src: string = "";
     const alt: string = "Cute and quirky cats";
+
+    let loading: boolean = true;
+
+    setTimeout(() => loading = false, 3000);
 </script>
 
-<div class="catCardContainer">
-    <div class="imageContainer">
-        <img class="cats" src={src} alt={alt}>
+{#if loading}
+    <div class="catCardContainer loading">
+
+        <div class="imageContainer loading">
+        </div>
+        
+        <div class="descriptionContainer loading">
+            <p class="loading"></p>
+        </div>
     </div>
-    
-    <div class="descriptionContainer">
-        <p>Hello, you cutie cats!</p>
+{:else}
+    <div class="catCardContainer">
+
+        <div class="imageContainer">
+            <img class="cats" src={src} alt={alt}>
+        </div>
+        
+        <div class="descriptionContainer">
+            <p>Hello, you cutie cats!</p>
+        </div>
     </div>
-</div>
+{/if}
 
 <style>
     img.cats {
@@ -30,8 +47,10 @@
         overflow: hidden;
     }
 
-    div.descriptionContainer {
+    div.descriptionContainer, div.descriptionContainer.loading {
+        background-color: var(--color-text4);
         border-top: 1px solid var(--color-text3);
+        border-radius: 0 0 10px 10px;
         width: 100%;
         padding: 2rem;
         height: 6rem;
@@ -39,11 +58,26 @@
     }
 
     div.catCardContainer {
-        background-color: var(--color-text4);
         display: inline-grid;
         width: 30rem;
         border: 1px solid var(--color-text);
         border-radius: 10px;
         box-shadow: -5px -5px 40px var(--color-text3);
+    }
+
+    div.loading {
+        border-radius: 10px;
+        background: linear-gradient(-45deg, white 5%, transparent, white);
+        animation: gradient 1s cubic-bezier(1,1,0,0) 10;
+        background-size: 1000% 400%;
+    }
+
+    @keyframes gradient {
+        0% {
+            background-position: 105% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
     }
 </style>

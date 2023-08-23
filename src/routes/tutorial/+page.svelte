@@ -146,7 +146,7 @@
 <div on:pointermove|trusted={(e) => cursorCoordinates = getCoordinates(e)}>
     {#if $partyMode} 
         <Confetti x={[-1, 6]} y={[1, 0.1]} delay={[0, 2000]} infinite duration={5000} amount={200} fallDistance="100vh"/>
-        {/if}
+    {/if}
         
     <RainbowAnimation />
     
