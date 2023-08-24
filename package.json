@@ -18,6 +18,7 @@
 		"@neoconfetti/svelte": "^1.0.0",
 		"@smui/button": "^7.0.0-beta.14",
 		"@smui/card": "^7.0.0-beta.14",
+		"@smui/fab": "^7.0.0-beta.14",
 		"@smui/icon-button": "^7.0.0-beta.14",
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/adapter-vercel": "^3.0.3",

@@ -1,20 +1,20 @@
 <script lang="ts">
-    import IconButton from '@smui/icon-button';
+	import Fab, { Icon } from '@smui/fab';
+	import IconButton from '@smui/icon-button';
 	export let src: string = '';
 	export let remove: boolean = true;
+	export let removeFunction = () => {};
+	export let addFunction = () => {};
+	export let id: number = 0;
 	const alt: string = 'Cute and quirky cats';
 
 	let loading: boolean = true;
 
 	setTimeout(() => (loading = false), 3000);
 
-	const removeCatCard = (card: any) => {
-		console.log(card);
-	};
+	// add delete animation
 
-	const addCatCard = (card: any) => {
-		console.log(card);
-	};
+	// add animation when adding card
 
 	// want to add hover funtionality to lift card
 	const liftOnHover = (e: any) => {
@@ -22,45 +22,52 @@
 	};
 </script>
 
-{#if loading}
-	<div class="catCardContainer loading">
-		<div class="imageContainer loading" />
-
-		<div class="descriptionContainer loading">
-			<p class="loading" />
-		</div>
-	</div>
-{:else if src === 'add'}
-	<div class="catCardContainer">
+{#if src === 'add'}
+	<div class="catCardContainer {id} {loading ? 'loading' : ''}">
 		<div class="imageContainer">
-			<img class="cats" {src} {alt} />
+			{#if !loading}
+				<div class="fabContainer">
+					<Fab color="primary" on:click={() => addFunction()}>
+						<Icon class="material-icons">add</Icon>
+					</Fab>
+				</div>
+			{/if}
 		</div>
 
-		<div class="descriptionContainer">
-			<p>Add a cat!</p>
-		</div>
+		<div class="descriptionContainer {loading ? 'loading' : ''}" />
 	</div>
 {:else}
-	<div class="catCardContainer">
+	<div class="catCardContainer {id} {loading ? 'loading' : ''}">
 		<div class="imageContainer">
-			<img class="cats" {src} {alt} />
+			{#if !loading && src !== 'add'}
+				<img class="cats" {src} {alt} />
+			{/if}
 		</div>
 
-		<div class="descriptionContainer">
-			<p>Hello, you cutie cats!</p>
-			{#if remove}
-				<IconButton class="material-icons">delete</IconButton>
+		<div class="descriptionContainer {loading ? 'loading' : ''}">
+			{#if remove && !loading}
+				<p>Hello, you cutie cats!</p>
+				<IconButton class="material-icons" size="normal" on:click={removeFunction}
+					>delete</IconButton
+				>
 			{/if}
 		</div>
 	</div>
 {/if}
 
 <style>
-    P {
-        width: 50%;
-        display: inline;
-        margin-right: 2rem;
-    }
+	.fabContainer {
+		display: flex;
+		width: 100%;
+		height: 100%;
+		justify-content: center;
+		align-items: center;
+	}
+	p {
+		width: 50%;
+		display: inline;
+		margin-right: 2rem;
+	}
 	img.cats {
 		position: absolute;
 		width: 30rem;

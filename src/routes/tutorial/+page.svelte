@@ -9,7 +9,7 @@
 	import { partyMode, count, doubleIfParty, doubleIt, progress } from '../stores';
 
 	import NorwegianConfettiFlag from '../../components/norwegianConfettiFlag.svelte';
-	import CatCard from '../../components/catCard.svelte';
+	import CatCardsGrid from '../../components/catCardsGrid.svelte';
 	import RainbowAnimation from '../../components/rainbowAnimation.svelte';
 	import Textarea from '../../components/textarea.svelte';
 	import PartyText from '../../components/partyText.svelte';
@@ -197,11 +197,7 @@
 		Decrement
 	</button>
 
-	<div class="grid">
-		{#each [...cuteAndQuirkyCatImages, "add"] as image}
-			<CatCard src={image} />
-		{/each}
-	</div>
+	<CatCardsGrid catList={cuteAndQuirkyCatImages} remove={true} />
 
 	{#if clicked}
 		<p in:typewriter={{ speed: 1 }} class="greetOnClick" aria-hidden={!clicked}>
@@ -351,14 +347,6 @@
 		display: flex;
 		width: 50%;
 		margin: 0 25%;
-	}
-
-	.grid {
-		display: grid;
-		gap: 2rem;
-		width: 80vw;
-		grid-template-columns: repeat(auto-fill, minmax(32rem, 1fr));
-		margin: 5rem 10vw;
 	}
 
 	div.headerContainer {
