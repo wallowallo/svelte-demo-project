@@ -27,6 +27,7 @@ html {
 	box-sizing: border-box;
 }
 
+ /* important for cards */
 *,
 *:before,
 *:after {

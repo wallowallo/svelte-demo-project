@@ -1,15 +1,14 @@
 <script lang="ts">
-	import { getContext } from "svelte";
-	import { typewriter } from "../utils/utils.svelte";
+	import { getContext } from 'svelte';
+	import { typewriter } from '../utils/utils.svelte';
 	export let recieveUpdateFromParent: number = 0;
 	export let partyMode = false;
-	let text = "guess im the middle man"
+	let text = 'guess im the middle man';
 
 	const clicked = getContext('clicked');
 
 	$: clickedActive = $clicked;
 </script>
-
 
 <svelte:head>
 	<title>About</title>
@@ -24,13 +23,13 @@
 			<slot name="top" {text} />
 		</div>
 	{/if}
-	
+
 	<p class:partyText={partyMode}>
 		This is a <a href="https://kit.svelte.dev">SvelteKit</a> app. You can make your own by typing the
 		following into your command line and following the prompts:
 	</p>
-	
-	<pre in:typewriter={{speed: 10}} class:partyText={partyMode}>npm create svelte@latest</pre>
+
+	<pre in:typewriter={{ speed: 10 }} class:partyText={partyMode}>npm create svelte@latest</pre>
 	<slot {text} />
 
 	<p class:partyText={partyMode}>
@@ -42,7 +41,7 @@
 	<p class:partyText={partyMode}>This has been sent from parent: {recieveUpdateFromParent}</p>
 
 	<p>Clicked from parent is: {clickedActive}</p>
-	
+
 	<slot name="bottom" />
 </div>
 

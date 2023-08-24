@@ -1,16 +1,16 @@
 <script context="module" lang="ts">
-	import type { TextareaObj } from "../models/models";
-	let array: TextareaObj[] = []; 
+	import type { TextareaObj } from '../models/models';
+	let array: TextareaObj[] = [];
 </script>
 
 <script lang="ts">
-	import { debounce } from "../routes/utils/utils.svelte";
+	import { debounce } from '../routes/utils/utils.svelte';
 	export let textAreaObjs = array;
 	export let partyMode: boolean = false;
-    export let value: string = "";
+	export let value: string = '';
 	export let idx: number = 0;
 
-	const textareaObject: TextareaObj = { idx, text: ""}
+	const textareaObject: TextareaObj = { idx, text: '' };
 	let typedIn: boolean = false;
 
 	$: typedInArea = typedIn;
@@ -30,32 +30,38 @@
 
 	const updateTextInArray = setIndex(idx);
 
-	const setFalse = () => typedIn = false;
-	const setTrue = () => typedIn = true;
+	const setFalse = () => (typedIn = false);
+	const setTrue = () => (typedIn = true);
 
 	const handleKeyUp = () => {
 		setFalse();
 		checkForParty();
-	}
+	};
 
 	const checkForParty = () => {
-		if (myValue === "party") {
+		if (myValue === 'party') {
 			partyMode = true;
 		} else {
 			partyMode = false;
 		}
-	}
+	};
 </script>
 
 {#if typedInArea === true}
 	<p>❤️‍🔥 Hell yeah!! They are typing in me! ❤️‍🔥</p>
 {/if}
 
-<textarea on:keydown={setTrue} on:keyup={debounce(handleKeyUp)} class:partyStyling={partyMode} bind:value={myValue} cols="30" rows="10"></textarea>
-
+<textarea
+	on:keydown={setTrue}
+	on:keyup={debounce(handleKeyUp)}
+	class:partyStyling={partyMode}
+	bind:value={myValue}
+	cols="30"
+	rows="10"
+/>
 
 <style>
-    textarea {
+	textarea {
 		padding: 1rem;
 		width: 50%;
 		height: 100%;
