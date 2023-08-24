@@ -17,7 +17,7 @@
 	let filteredList: string[] = Array(9);
 	let loading: boolean = true;
 
-	setTimeout(() => {loading = false; filteredList = catList}, 3000);
+	setTimeout(() => {filteredList = catList; loading = false;}, 3000);
 
 	const missingElements = () => {
 		console.log(catList, filteredList);
@@ -29,45 +29,62 @@
 	const removeCard = (src: string) => (filteredList = filteredList.filter((cat) => cat !== src));
 </script>
 
-<div class="grid">
+<!-- <div class="grid">
 	{#each [...filteredList, 'add'] as image}
 		<CatCard src={image} {remove} removeFunction={() => removeCard(image)} addFunction={addCatCard} />
 	{/each}
-</div>
+</div> -->
 
 <div class="grid">
-	{#each [...filteredList, 'add'] as src}
-		<div class="card-display">
-			<div class="card-container loading {loading ? 'loading' : ''}">
-				<Card>
-					<Media style="background-image: url({src})" aspectRatio="16x9" />
-					<Content class="mdc-typography--body2 content">Hey, you cutie cats!</Content>
-					<Actions>
-						<ActionIcons>
-							<IconButton on:click toggle aria-label="Add to favorites" title="Add to favorites">
-								<Icon class="material-icons" on>favorite</Icon>
-								<Icon class="material-icons">favorite_border</Icon>
-							</IconButton>
-							<IconButton class="material-icons" on:click={() => removeCard(src)} title="Delete"
-								>delete</IconButton
-							>
-						</ActionIcons>
-					</Actions>
-				</Card>
-			</div>
-		</div>
-	{/each}
+    {#if loading}
+        {#each [...filteredList, 'add'] as src}
+            <div class="card-display">
+                <div class="card-container loading">
+                    <Card style="background-color: transparent;">
+                        <Media style="background-color: transparent;" aspectRatio="16x9" />
+                        <Content class="mdc-typography--body2 content">Loading...</Content>
+                        <Actions>
+                            <ActionIcons>
+                                <IconButton toggle aria-label="Add to favorites" title="Add to favorites">
+                                    <Icon class="material-icons" on>favorite</Icon>
+                                    <Icon class="material-icons">favorite_border</Icon>
+                                </IconButton>
+                                <IconButton class="material-icons" title="Delete"
+                                    >delete</IconButton
+                                >
+                            </ActionIcons>
+                        </Actions>
+                    </Card>
+                </div>
+            </div>
+        {/each}
+    {:else}       
+        {#each [...filteredList, 'add'] as src}
+            <div class="card-display">
+                <div class="card-container">
+                    <Card>
+                        <Media style="background-image: url({src})" aspectRatio="16x9" />
+                        <Content class="mdc-typography--body2 content">Hey, you cutie cats!</Content>
+                        <Actions>
+                            <ActionIcons>
+                                <IconButton on:click toggle aria-label="Add to favorites" title="Add to favorites">
+                                    <Icon class="material-icons" on>favorite</Icon>
+                                    <Icon class="material-icons">favorite_border</Icon>
+                                </IconButton>
+                                <IconButton class="material-icons" on:click={() => removeCard(src)} title="Delete"
+                                    >delete</IconButton
+                                >
+                            </ActionIcons>
+                        </Actions>
+                    </Card>
+                </div>
+            </div>
+        {/each}
+    {/if}
+
 </div>
 
 <style>
-	img {
-		position: absolute;
-		width: 100%;
-		max-width: 30rem;
-		height: auto;
-		overflow: hidden;
-	}
-
 	.grid {
 		display: grid;
 		gap: 2rem;
@@ -84,7 +101,7 @@
 
 	@keyframes gradient {
 		0% {
-			background-position: 105% 100%;
+			background-position: 105% 50%;
 		}
 		100% {
 			background-position: 0% 50%;
