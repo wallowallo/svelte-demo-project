@@ -17,7 +17,7 @@
 	let filteredList: string[] = Array(9);
 	let loading: boolean = true;
 
-	setTimeout(() => {filteredList = catList; loading = false;}, 3000);
+	setTimeout(() => {filteredList = catList; loading = false;}, 5000);
 
 	const missingElements = () => {
 		console.log(catList, filteredList);
