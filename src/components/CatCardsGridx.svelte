@@ -34,8 +34,8 @@
 		{#each [...filteredList] as src}
 			<div class="card-display">
 				<div class="card-container loading">
-					<Card style="background-color: transparent;">
-						<Media style="background-color: transparent;" aspectRatio="16x9" />
+					<Card class="transparent">
+						<Media class="transparent" aspectRatio="16x9" />
 						<Content class="mdc-typography--body2 content">Loading...</Content>
 						<Actions>
 							<ActionIcons>
@@ -54,8 +54,8 @@
 		{#each [...filteredList] as src}
 			<div class="card-display">
 				<div class="card-container">
-					<Card>
-						<Media style="background-image: url({src})" aspectRatio="16x9" />
+					<Card class="smoothHover">
+						<Media class="greyscale" style="background-image: url({src});" aspectRatio="16x9" />
 						<Content class="mdc-typography--body2 content">Hey, you cutie cats!</Content>
 						<Actions>
 							<ActionIcons>
@@ -76,6 +76,48 @@
 </div>
 
 <style>
+	:global(.transparent) {
+		background-color: transparent;
+	}
+
+	:global(.smoothHover) {
+		z-index: 1;
+		transition: all 0.3s ease-in-out;
+	}
+
+/* Pre-render the bigger shadow, but hide it */
+	:global(.smoothHover::after) {
+		box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+		opacity: 0;
+		z-index: 2;
+		transition: opacity 0.3s ease-in-out;
+	}
+
+	/* Transition to showing the bigger shadow on hover */
+	:global(.smoothHover:hover::after) {
+		opacity: 1;
+	}
+
+	:global(.smoothHover:hover) {
+		z-index: 2;
+		transform: scale(1.3);
+	}
+
+	:global(.greyscale) {
+		-moz-filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale");
+         -o-filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale");
+         -webkit-filter: grayscale(100%);
+         filter: gray;
+         filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale");
+	}
+
+	:global(.greyscale:hover) {
+		-moz-filter: none;
+		-o-filter: none;
+		-webkit-filter: none;
+		filter: none;
+	}
+
 	.grid {
 		display: grid;
 		gap: 2rem;
