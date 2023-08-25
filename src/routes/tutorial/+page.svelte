@@ -5,16 +5,16 @@
 	import { writable } from 'svelte/store';
 	import { Confetti } from 'svelte-confetti';
 	import { fade } from 'svelte/transition';
-
+    
 	import { partyMode, count, doubleIfParty, doubleIt, progress } from '../stores';
-
-	import NorwegianConfettiFlag from '../../components/NorwegianConfettiFlag.svelte';
-	import CatCardsGrid from '../../components/CatCardsGrid.svelte';
-	import Textarea from '../../components/Textarea.svelte';
-	import PartyText from '../../components/PartyText.svelte';
-	import Progressbar from '../../components/Progressbar.svelte';
-	import ProgressButton from '../../components/ProgressButton.svelte';
-	import ToggleConfetti from '../../components/ToggleConfetti.svelte';
+    
+	import NorwegianConfettiFlag from '../../components/NorwegianConfettiFlagx.svelte';
+	import CatCardsGrid from '../../components/CatCardsGridx.svelte';
+	import Textarea from '../../components/Textareax.svelte';
+	import PartyText from '../../components/PartyTextx.svelte';
+	import Progressbar from '../../components/Progressbarx.svelte';
+	import ProgressButton from '../../components/ProgressButtonx.svelte';
+	import ToggleConfetti from '../../components/ToggleConfettix.svelte';
 	import About from '../about/+page.svelte';
 	import {
 		typewriter,

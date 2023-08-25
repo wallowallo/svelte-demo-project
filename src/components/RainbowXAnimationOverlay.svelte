@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DiagonalRow from './DiagonalRow.svelte';
+	import DiagonalRow from './DiagonalRowx.svelte';
 	let hidden: boolean = false;
 
 	setTimeout(() => (hidden = true), 3000);
