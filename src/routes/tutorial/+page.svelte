@@ -160,7 +160,7 @@
 <div on:pointermove|trusted={(e) => (cursorCoordinates = getCoordinates(e))}>
 	{#if $partyMode}
 		<Confetti
-			x={[-1, 6]}
+			x={[-1, 20]}
 			y={[1, 0.1]}
 			delay={[0, 2000]}
 			infinite
@@ -170,7 +170,7 @@
 		/>
 	{/if}
 
-	<h1 class="welcome">{@html 'Hello <strong>UserX!</strong>'}</h1>
+	<h1 class="welcome">{@html 'Hello <strong>User-X!</strong>'}</h1>
 
 	<CatCardsGrid catList={cuteAndQuirkyCatImages} remove={true} />
 
