@@ -24,7 +24,6 @@
 		console.log(catList, filteredList);
 	};
 
-	console.log(missingElements);
 	const addCatCard = () => missingElements();
 
 	const removeCard = (src: string) => (filteredList = filteredList.filter((cat) => cat !== src));
@@ -32,7 +31,7 @@
 
 <div class="grid">
 	{#if loading}
-		{#each [...filteredList, 'add'] as src}
+		{#each [...filteredList] as src}
 			<div class="card-display">
 				<div class="card-container loading">
 					<Card style="background-color: transparent;">
@@ -52,7 +51,7 @@
 			</div>
 		{/each}
 	{:else}
-		{#each [...filteredList, 'add'] as src}
+		{#each [...filteredList] as src}
 			<div class="card-display">
 				<div class="card-container">
 					<Card>
