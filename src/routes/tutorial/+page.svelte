@@ -8,14 +8,13 @@
 
 	import { partyMode, count, doubleIfParty, doubleIt, progress } from '../stores';
 
-	import NorwegianConfettiFlag from '../../components/norwegianConfettiFlag.svelte';
-	import CatCardsGrid from '../../components/catCardsGrid.svelte';
-	import RainbowAnimation from '../../components/rainbowAnimation.svelte';
-	import Textarea from '../../components/textarea.svelte';
-	import PartyText from '../../components/partyText.svelte';
-	import Progressbar from '../../components/progressbar.svelte';
-	import ProgressButton from '../../components/progressButton.svelte';
-	import ToggleConfetti from '../../components/toggleConfetti.svelte';
+	import NorwegianConfettiFlag from '../../components/NorwegianConfettiFlag.svelte';
+	import CatCardsGrid from '../../components/CatCardsGrid.svelte';
+	import Textarea from '../../components/Textarea.svelte';
+	import PartyText from '../../components/PartyText.svelte';
+	import Progressbar from '../../components/Progressbar.svelte';
+	import ProgressButton from '../../components/ProgressButton.svelte';
+	import ToggleConfetti from '../../components/ToggleConfetti.svelte';
 	import About from '../about/+page.svelte';
 	import {
 		typewriter,
@@ -171,10 +170,26 @@
 		/>
 	{/if}
 
-	<RainbowAnimation />
+	<h1 class="welcome">{@html 'Hello <strong>UserX!</strong>'}</h1>
 
-	<div class="headerContainer">
+	<!-- <div class="headerContainer">
 		<h1 class="welcome">Welcome to my humble abode!</h1>
+	</div> -->
+
+	<CatCardsGrid catList={cuteAndQuirkyCatImages} remove={true} />
+
+	{#each [incrementedText, clickedText] as text}
+		<PartyText --text-color="var(--color-text)" partyMode={$partyMode} {text} />
+	{/each}
+
+	<div class="incrementAndDecrementButtonContainer">
+		<button class:partyStyling={$partyMode} on:click|trusted={incrementAndDisplayText}>
+			{!clicked ? 'Increment! + more' : 'Thank you!'}
+		</button>
+
+		<button class:partyStyling={$partyMode} on:click|trusted={() => count.decrement()}>
+			Decrement
+		</button>
 	</div>
 
 	{#if $partyMode}
@@ -184,20 +199,6 @@
 			alt="clicking party button changes it to woop woop"
 		/>
 	{/if}
-
-	{#each ['Hello <strong>UserX</strong>!', incrementedText, clickedText] as text}
-		<PartyText --text-color="var(--color-text)" partyMode={$partyMode} {text} />
-	{/each}
-
-	<button class:partyStyling={$partyMode} on:click|trusted={incrementAndDisplayText}>
-		{!clicked ? 'Increment! + more' : 'Thank you!'}
-	</button>
-
-	<button class:partyStyling={$partyMode} on:click|trusted={() => count.decrement()}>
-		Decrement
-	</button>
-
-	<CatCardsGrid catList={cuteAndQuirkyCatImages} remove={true} />
 
 	{#if clicked}
 		<p in:typewriter={{ speed: 1 }} class="greetOnClick" aria-hidden={!clicked}>
@@ -283,7 +284,7 @@
 		{#if visible}
 			<div in:fade={{ duration: 900 }}>
 				{#each !$partyMode ? [...greetList, greeting] : partyList as greet}
-					<PartyText --text-color="red" partyMode={$partyMode} text={greet} />
+					<PartyText partyMode={$partyMode} text={greet} />
 				{/each}
 			</div>
 		{/if}
@@ -324,7 +325,7 @@
 	<PartyText partyMode={$partyMode} text="Here is your list from textareas:" />
 	{#each textAreaObjs as obj}
 		{#if obj.text !== ''}
-			<PartyText partyMode={$partyMode} text={obj.text} />
+			<PartyText in:fade={{ duration: 900 }} partyMode={$partyMode} text={obj.text} />
 		{/if}
 	{/each}
 
@@ -343,6 +344,18 @@
 </div>
 
 <style>
+	.incrementAndDecrementButtonContainer {
+		width: 45.5rem;
+		margin: 0 auto;
+	}
+	.incrementAndDecrementButtonContainer button {
+		display: inline;
+		margin-left: 1.5rem;
+		padding: 0;
+		width: 20rem;
+		height: 4rem;
+	}
+
 	div.progressButtonContainer {
 		display: flex;
 		width: 50%;
@@ -359,8 +372,8 @@
 	}
 
 	h1.welcome {
-		color: rgba(0, 0, 0, 0.825);
-		-webkit-text-stroke: 2px rgb(0 255 255);
+		margin-top: 4rem;
+		color: var(--color-text);
 		font-size: 90px;
 	}
 	div {
@@ -376,7 +389,7 @@
 	}
 
 	img.partyMode {
-		animation: party-zoom 1.5s ease infinite;
+		animation: party-zoom 1.5s ease 5;
 	}
 
 	input {
@@ -413,7 +426,7 @@
 	:global(.partyStyling) {
 		background: linear-gradient(45deg, #ffb700, #ff57a5, #353acd);
 		background-size: 400% 400%;
-		animation: gradient 2s ease infinite;
+		animation: gradient 2s ease 5;
 	}
 
 	@keyframes gradient {

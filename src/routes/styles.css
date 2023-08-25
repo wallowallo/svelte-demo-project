@@ -16,6 +16,15 @@
 	--color-text3: hsl(325, 100%, 16%);
 	--color-text4: hsl(300, 100%, 40%);
 	--color-text5: hsl(275, 100%, 16%);
+
+	--red: hsl(0, 100%, 58%);
+	--orange: hsl(29, 99%, 59%);
+	--blue: hsl(222, 88%, 68%);
+	--green: hsl(115, 100%, 61%);
+	--yellow: hsl(53, 100%, 58%);
+	--purple: hsl(275, 100%, 64%);
+	--pink: hsl(302, 98%, 63%);
+
 	--opacity: 0.65;
 	--column-width: 42rem;
 	--column-margin-top: 4rem;

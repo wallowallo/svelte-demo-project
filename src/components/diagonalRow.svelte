@@ -18,7 +18,7 @@
 			var(--color)
 		);
 		transform: skew(var(--degree, -45deg));
-		animation: gradient 5s cubic-bezier(1, 1, 0, 0) 10, zoom 5s 10;
+		animation: gradient 1.5s cubic-bezier(1, 1, 0, 0) 2, zoom 2s 2;
 		background-size: 2000% 100%;
 	}
 
@@ -33,13 +33,13 @@
 
 	@keyframes zoom {
 		0% {
-			transform: skew(var(--degree, -45deg)) scale(1.02);
-		}
-		50% {
 			transform: skew(var(--degree, -45deg)) scale(1);
 		}
+		50% {
+			transform: skew(var(--degree, -45deg)) scale(1.2);
+		}
 		100% {
-			transform: skew(var(--degree, -45deg)) scale(1.02);
+			transform: skew(var(--degree, -45deg)) scale(1);
 		}
 	}
 </style>

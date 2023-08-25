@@ -47,24 +47,35 @@
 	};
 </script>
 
-{#if typedInArea === true}
-	<p>❤️‍🔥 Hell yeah!! They are typing in me! ❤️‍🔥</p>
-{/if}
+<div class="container">
+	{#if typedInArea === true}
+		<p>❤️‍🔥 Hell yeah!! They are typing in me! ❤️‍🔥</p>
+	{/if}
 
-<textarea
-	on:keydown={setTrue}
-	on:keyup={debounce(handleKeyUp)}
-	class:partyStyling={partyMode}
-	bind:value={myValue}
-	cols="30"
-	rows="10"
-/>
+	<textarea
+		on:keydown={setTrue}
+		on:keyup={debounce(handleKeyUp)}
+		class:partyStyling={partyMode}
+		bind:value={myValue}
+		cols="30"
+		rows="10"
+	/>
+</div>
 
 <style>
+	.container {
+		height: 16rem;
+	}
+	p {
+		width: 22rem;
+		height: 2rem;
+		margin: 0 auto;
+	}
+
 	textarea {
 		padding: 1rem;
 		width: 50%;
-		height: 100%;
+		height: 13rem;
 		resize: none;
 		margin: 0 25%;
 		background-color: rgba(255, 255, 255, var(--opacity));

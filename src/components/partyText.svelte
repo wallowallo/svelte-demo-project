@@ -1,9 +1,10 @@
 <script lang="ts">
+	import { fade } from 'svelte/transition';
 	export let partyMode = false;
 	export let text = '';
 </script>
 
-<p class:partyText={partyMode}>{@html text}</p>
+<p in:fade={{ duration: 900 }} class:partyText={partyMode}>{@html text}</p>
 
 <style>
 	p {
@@ -17,7 +18,7 @@
 		color: transparent;
 		background: linear-gradient(45deg, #ffb700, #ff57a5, #353acd);
 		background-size: 400% 400%;
-		animation: gradient 2s ease infinite;
+		animation: gradient 2s ease 5;
 		background-clip: text;
 		-webkit-background-clip: text;
 	}

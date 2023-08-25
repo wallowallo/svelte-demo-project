@@ -1,3 +1,5 @@
+<!-- component not in use, keep for own purposes -->
+
 <script lang="ts">
 	import Fab, { Icon } from '@smui/fab';
 	import IconButton from '@smui/icon-button';
@@ -11,15 +13,6 @@
 	let loading: boolean = true;
 
 	setTimeout(() => (loading = false), 3000);
-
-	// add delete animation
-
-	// add animation when adding card
-
-	// want to add hover funtionality to lift card
-	const liftOnHover = (e: any) => {
-		console.log(e);
-	};
 </script>
 
 {#if src === 'add'}

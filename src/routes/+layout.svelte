@@ -1,9 +1,11 @@
 <script>
+	import RainbowAnimation from '../components/RainbowXAnimationOverlay.svelte';
 	import Header from './Header.svelte';
 	import './styles.css';
 </script>
 
 <div class="app">
+	<RainbowAnimation />
 	<Header />
 
 	<main>
@@ -11,7 +13,7 @@
 	</main>
 
 	<footer>
-		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
+		<span>Hello</span>
 	</footer>
 </div>
 

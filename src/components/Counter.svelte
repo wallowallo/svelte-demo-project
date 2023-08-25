@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { count } from './stores';
+	import { count } from '../routes/stores';
 
 	$: offset = modulo($count, 1);
 
