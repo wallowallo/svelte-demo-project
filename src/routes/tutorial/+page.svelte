@@ -170,7 +170,7 @@
 		/>
 	{/if}
 
-	<h1 class="welcome">{@html 'Hello <strong>UserX!</strong>'}</h1>
+    <h1 class="welcome">{@html "Hello <strong>UserX!</strong>"}</h1>
 
 	<!-- <div class="headerContainer">
 		<h1 class="welcome">Welcome to my humble abode!</h1>
@@ -178,19 +178,20 @@
 
 	<CatCardsGrid catList={cuteAndQuirkyCatImages} remove={true} />
 
-	{#each [incrementedText, clickedText] as text}
+    {#each [incrementedText, clickedText] as text}
 		<PartyText --text-color="var(--color-text)" partyMode={$partyMode} {text} />
 	{/each}
 
-	<div class="incrementAndDecrementButtonContainer">
-		<button class:partyStyling={$partyMode} on:click|trusted={incrementAndDisplayText}>
-			{!clicked ? 'Increment! + more' : 'Thank you!'}
-		</button>
 
-		<button class:partyStyling={$partyMode} on:click|trusted={() => count.decrement()}>
-			Decrement
-		</button>
-	</div>
+    <div class="incrementAndDecrementButtonContainer">
+        <button class:partyStyling={$partyMode} on:click|trusted={incrementAndDisplayText}>
+            {!clicked ? 'Increment! + more' : 'Thank you!'}
+        </button>
+    
+        <button class:partyStyling={$partyMode} on:click|trusted={() => count.decrement()}>
+            Decrement
+        </button>
+    </div>
 
 	{#if $partyMode}
 		<img
@@ -199,8 +200,8 @@
 			alt="clicking party button changes it to woop woop"
 		/>
 	{/if}
-
-	{#if clicked}
+    
+    {#if clicked}
 		<p in:typewriter={{ speed: 1 }} class="greetOnClick" aria-hidden={!clicked}>
 			Top of the morning to ya!
 		</p>
@@ -325,7 +326,7 @@
 	<PartyText partyMode={$partyMode} text="Here is your list from textareas:" />
 	{#each textAreaObjs as obj}
 		{#if obj.text !== ''}
-			<PartyText in:fade={{ duration: 900 }} partyMode={$partyMode} text={obj.text} />
+			<PartyText partyMode={$partyMode} text={obj.text} />
 		{/if}
 	{/each}
 
@@ -344,17 +345,17 @@
 </div>
 
 <style>
-	.incrementAndDecrementButtonContainer {
-		width: 45.5rem;
-		margin: 0 auto;
-	}
-	.incrementAndDecrementButtonContainer button {
-		display: inline;
-		margin-left: 1.5rem;
-		padding: 0;
-		width: 20rem;
-		height: 4rem;
-	}
+    .incrementAndDecrementButtonContainer {
+        width: 45.5rem;
+        margin: 0 auto;
+    }
+    .incrementAndDecrementButtonContainer button {
+        display: inline;
+        margin-left: 1.5rem;
+        padding: 0;
+        width: 20rem;
+        height: 4rem;
+    }
 
 	div.progressButtonContainer {
 		display: flex;
@@ -372,7 +373,7 @@
 	}
 
 	h1.welcome {
-		margin-top: 4rem;
+        margin-top: 4rem;
 		color: var(--color-text);
 		font-size: 90px;
 	}
