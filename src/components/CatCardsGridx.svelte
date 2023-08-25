@@ -89,7 +89,6 @@
 	:global(.smoothHover::after) {
 		box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 		opacity: 0;
-		z-index: 2;
 		transition: opacity 0.3s ease-in-out;
 	}
 
