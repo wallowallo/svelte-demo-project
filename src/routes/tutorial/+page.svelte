@@ -172,10 +172,6 @@
 
     <h1 class="welcome">{@html "Hello <strong>UserX!</strong>"}</h1>
 
-	<!-- <div class="headerContainer">
-		<h1 class="welcome">Welcome to my humble abode!</h1>
-	</div> -->
-
 	<CatCardsGrid catList={cuteAndQuirkyCatImages} remove={true} />
 
     {#each [incrementedText, clickedText] as text}
@@ -361,15 +357,6 @@
 		display: flex;
 		width: 50%;
 		margin: 0 25%;
-	}
-
-	div.headerContainer {
-		background-color: transparent;
-		display: flex;
-		position: absolute;
-		top: 14rem;
-		left: calc(50vw - 20rem);
-		width: 40rem;
 	}
 
 	h1.welcome {
