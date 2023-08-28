@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fade } from 'svelte/transition';
 	import Card, { Content, Media, Actions, ActionIcons } from '@smui/card';
 	import IconButton, { Icon } from '@smui/icon-button';
 	import type { CatImageObject, StoreCatImages } from '../models/models';
@@ -7,9 +8,7 @@
 	let loadingList: CatImageObject[] = Array(9);
 	let loading: boolean = true;
 
-	// add delete animation
-
-	setTimeout(() => {;
+	setTimeout(() => {
 		loading = false;
 	}, 5000);
 
@@ -38,7 +37,7 @@
 		{/each}
 	{:else}
 		{#each $store as image (image.id)}
-			<div class="card-display">
+			<div class="card-display" out:fade>
 				<div class="card-container">
 					<Card class="smoothHover">
 						<Media class="greyscale" style="background-image: url({image.src});" aspectRatio="16x9" />
@@ -49,7 +48,7 @@
 									<Icon class="material-icons" on>favorite</Icon>
 									<Icon class="material-icons">favorite_border</Icon>
 								</IconButton>
-								<IconButton class="material-icons" on:click={() => store.remove(image)} title="Delete"
+								<IconButton class="material-icons" on:click={store.remove(image)} title="Remove" aria-label="Remove"
 									>delete</IconButton
 								>
 							</ActionIcons>
