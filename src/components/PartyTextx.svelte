@@ -19,8 +19,8 @@
 		background: linear-gradient(45deg, #ffb700, #ff57a5, #353acd);
 		background-size: 400% 400%;
 		animation: gradient 2s ease 5;
-		background-clip: text;
 		-webkit-background-clip: text;
+		background-clip: text;
 	}
 
 	@keyframes gradient {

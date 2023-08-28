@@ -1,37 +1,23 @@
 <script lang="ts">
 	import Card, { Content, Media, Actions, ActionIcons } from '@smui/card';
 	import IconButton, { Icon } from '@smui/icon-button';
-	export let remove: boolean = true;
-	export let catList: string[] = [];
-	let filteredList: string[] = Array(9);
+	import type { CatImageObject, StoreCatImages } from '../models/models';
+	export let store: StoreCatImages;
+
+	let loadingList: CatImageObject[] = Array(9);
 	let loading: boolean = true;
 
 	// add delete animation
 
-	// add animation when adding card
-
-	// want to add hover funtionality to lift card
-	const liftOnHover = (e: any) => {
-		console.log(e);
-	};
-
-	setTimeout(() => {
-		filteredList = catList;
+	setTimeout(() => {;
 		loading = false;
 	}, 5000);
 
-	const missingElements = () => {
-		console.log(catList, filteredList);
-	};
-
-	const addCatCard = () => missingElements();
-
-	const removeCard = (src: string) => (filteredList = filteredList.filter((cat) => cat !== src));
 </script>
 
 <div class="grid">
 	{#if loading}
-		{#each [...filteredList] as src}
+		{#each loadingList as image}
 			<div class="card-display">
 				<div class="card-container loading">
 					<Card class="transparent">
@@ -51,19 +37,19 @@
 			</div>
 		{/each}
 	{:else}
-		{#each [...filteredList] as src}
+		{#each $store as image (image.id)}
 			<div class="card-display">
 				<div class="card-container">
 					<Card class="smoothHover">
-						<Media class="greyscale" style="background-image: url({src});" aspectRatio="16x9" />
+						<Media class="greyscale" style="background-image: url({image.src});" aspectRatio="16x9" />
 						<Content class="mdc-typography--body2 content">Hey, you cutie cats!</Content>
 						<Actions>
 							<ActionIcons>
-								<IconButton on:click toggle aria-label="Add to favorites" title="Add to favorites">
+								<IconButton on:click={() => store.like(image, !image.liked)} toggle={image.liked} aria-label="Add to favorites" title="Add to favorites">
 									<Icon class="material-icons" on>favorite</Icon>
 									<Icon class="material-icons">favorite_border</Icon>
 								</IconButton>
-								<IconButton class="material-icons" on:click={() => removeCard(src)} title="Delete"
+								<IconButton class="material-icons" on:click={() => store.remove(image)} title="Delete"
 									>delete</IconButton
 								>
 							</ActionIcons>

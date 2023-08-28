@@ -53,6 +53,7 @@
 	{/if}
 
 	<textarea
+		name="svada"
 		on:keydown={setTrue}
 		on:keyup={debounce(handleKeyUp)}
 		class:partyStyling={partyMode}

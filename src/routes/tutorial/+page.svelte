@@ -1,12 +1,12 @@
 <svelte:options immutable />
 
 <script lang="ts">
-	import { setContext } from 'svelte';
+	import { onMount, setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { Confetti } from 'svelte-confetti';
 	import { fade } from 'svelte/transition';
     
-	import { partyMode, count, doubleIfParty, doubleIt, progress } from '../stores';
+	import { partyMode, count, doubleIfParty, doubleIt, progress, createCatImageStore } from '../stores';
     
 	import NorwegianConfettiFlag from '../../components/NorwegianConfettiFlagx.svelte';
 	import CatCardsGrid from '../../components/CatCardsGridx.svelte';
@@ -24,14 +24,15 @@
 		onCursorMove
 	} from '../utils/utils.svelte';
 
-	import type { TextareaObj } from '../../models/models';
+	import type { TextareaObj, CatImageObject, StoreCatImages } from '../../models/models';
 
 	let textareaValue: string = '';
 	let name: string = 'Kenny';
 
+	let catImages: StoreCatImages;
 	let howManyArrays: number = 1;
-	let timeouts: number[] = [];
-	let intervals: number[] = [];
+	let timeouts: NodeJS.Timeout[] = [];
+	let intervals: NodeJS.Timeout[] = [];
 	let timeLeftMS: number = 0;
 	let timeLeftSeconds: number = 0;
 	let timeLeftDecimalSeconds: number = 0;
@@ -94,6 +95,11 @@
 		'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREp4csdfsx14u1OiAAEMTjHGDzbfdJPa4fhg&usqp=CAU'
 	];
 
+
+	onMount(() => {
+		catImages = createCatImageStore(cuteAndQuirkyCatImages);
+	})
+
 	const concatAndCombineTextareaText = (textObjs: TextareaObj[]) =>
 		textObjs.map((x) => x.text.concat('')).reduce((acc, str) => `${acc} ${str}`, '');
 
@@ -119,7 +125,7 @@
 		intervals = [...intervals, interval];
 
 		if (clicked && intervals.length > 1) {
-			intervals.slice(0, -1).forEach((num: number) => clearInterval(num));
+			intervals.slice(0, -1).forEach((timeout: NodeJS.Timeout) => clearInterval(timeout));
 			intervals = [interval];
 		}
 	};
@@ -133,7 +139,7 @@
 		timeouts = [...timeouts, timeout];
 
 		if (clicked && timeouts.length > 1) {
-			timeouts.slice(0, -1).forEach((num: number) => clearTimeout(num));
+			timeouts.slice(0, -1).forEach((num: NodeJS.Timeout) => clearTimeout(num));
 			timeouts = [timeout];
 		}
 	};
@@ -172,7 +178,7 @@
 
 	<h1 class="welcome">{@html 'Hello <strong>User-X!</strong>'}</h1>
 
-	<CatCardsGrid catList={cuteAndQuirkyCatImages} remove={true} />
+	<CatCardsGrid store={catImages} />
 
 	{#each [incrementedText, clickedText] as text}
 		<PartyText --text-color="var(--color-text)" partyMode={$partyMode} {text} />
@@ -286,7 +292,7 @@
 		{/if}
 	{/await}
 
-	<input class:partyStyling={$partyMode} type="text" bind:value={name} />
+	<input name="svada1" class:partyStyling={$partyMode} type="text" bind:value={name} />
 
 	{#each [name, cursorText] as text}
 		<PartyText partyMode={$partyMode} {text} />
@@ -294,6 +300,7 @@
 
 	<p class="giveMeSpace">How many textareas do you want?</p>
 	<input
+        name="svada2"
 		class:partyStyling={$partyMode}
 		type="number"
 		bind:value={howManyArrays}
@@ -316,7 +323,7 @@
 		<PartyText partyMode={$partyMode} text="Aaaah! To bask in the sunlight!" />
 	{/if}
 
-	<input class:partyStyling={$partyMode} type="text" bind:value={textareaValue} />
+	<input name="svada3" class:partyStyling={$partyMode} type="text" bind:value={textareaValue} />
 
 	<PartyText partyMode={$partyMode} text="Here is your list from textareas:" />
 	{#each textAreaObjs as obj}
