@@ -45,7 +45,7 @@
 						<Content class="mdc-typography--body2 content">Hey, you cutie cats!</Content>
 						<Actions>
 							<ActionIcons>
-								<IconButton on:click={() => store.like(image, !image.liked)} toggle={image.liked} aria-label="Add to favorites" title="Add to favorites">
+								<IconButton on:click={() => store.like(image)} toggle={true} aria-label="Add to favorites" title="Add to favorites">
 									<Icon class="material-icons" on>favorite</Icon>
 									<Icon class="material-icons">favorite_border</Icon>
 								</IconButton>

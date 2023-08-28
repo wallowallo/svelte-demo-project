@@ -22,17 +22,7 @@ export interface CatImageObject {
 }
 
 export interface StoreCatImages {
-    subscribe: (this: void, run: Subscriber<{
-        id: number;
-        src: string;
-        liked: boolean;
-        description: string;
-    }[]>, invalidate?: Invalidator<{
-        id: number;
-        src: string;
-        liked: boolean;
-        description: string;
-    }[]> | undefined) => Unsubscriber;
+    subscribe: (this: void, run: Subscriber<CatImageObject[]>, invalidate?: Invalidator<CatImageObject[]> | undefined) => Unsubscriber;
     remove: (image: CatImageObject) => void;
-    like: (image: CatImageObject, liked: boolean) => void;
+    like: (image: CatImageObject) => void;
 }
