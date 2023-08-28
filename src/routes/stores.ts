@@ -47,12 +47,11 @@ export function createCatImageStore(initImages: string[]): StoreCatImages {
 	return {
 		subscribe,
 		remove: (image: CatImageObject) => {
-			update(($catImages) => {console.log($catImages.filter((i) => i !== image)); return $catImages.filter((i) => i !== image)});
+			update(($catImages) =>  $catImages.filter((i) => i !== image));
 		},
 		like: (image: CatImageObject, liked: boolean) => {
 			update(($catImages: CatImageObject[]) => {
 				const found = $catImages.filter(i => i === image);
-				console.log(found);
 				$catImages[found[0].id].liked = liked;
 				return [...$catImages];
 			});
