@@ -1,4 +1,4 @@
-import type { Invalidator, Subscriber, Unsubscriber } from "svelte/motion";
+import type { Invalidator, Subscriber, Unsubscriber } from 'svelte/motion';
 
 export interface TextareaObj {
 	idx: number;
@@ -15,14 +15,18 @@ export interface YCoordinates {
 }
 
 export interface CatImageObject {
-	id: number,
-	src: string,
-	liked: boolean,
-	description: string
+	id: number;
+	src: string;
+	liked: boolean;
+	description: string;
 }
 
 export interface StoreCatImages {
-    subscribe: (this: void, run: Subscriber<CatImageObject[]>, invalidate?: Invalidator<CatImageObject[]> | undefined) => Unsubscriber;
-    remove: (image: CatImageObject) => void;
-    like: (image: CatImageObject) => void;
+	subscribe: (
+		this: void,
+		run: Subscriber<CatImageObject[]>,
+		invalidate?: Invalidator<CatImageObject[]> | undefined
+	) => Unsubscriber;
+	remove: (image: CatImageObject) => void;
+	like: (image: CatImageObject) => void;
 }

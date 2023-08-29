@@ -35,7 +35,7 @@
 	{/each}
 </div>
 
-<style>
+<style lang="postcss">
 	.box {
 		display: flex;
 		align-items: center;

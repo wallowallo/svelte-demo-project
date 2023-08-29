@@ -5,16 +5,22 @@
 	import { writable } from 'svelte/store';
 	import { Confetti } from 'svelte-confetti';
 	import { fade } from 'svelte/transition';
-    
-	import { partyMode, count, doubleIfParty, doubleIt, progress, createCatImageStore } from '../stores';
-    
-	import NorwegianConfettiFlag from '../../components/NorwegianConfettiFlagx.svelte';
-	import CatCardsGrid from '../../components/CatCardsGridx.svelte';
-	import Textarea from '../../components/Textareax.svelte';
-	import PartyText from '../../components/PartyTextx.svelte';
-	import Progressbar from '../../components/Progressbarx.svelte';
-	import ProgressButton from '../../components/ProgressButtonx.svelte';
-	import ToggleConfetti from '../../components/ToggleConfettix.svelte';
+
+	import {
+		partyMode,
+		count,
+		doubleIfParty,
+		doubleIt,
+		progress,
+		createCatImageStore
+	} from '../stores';
+
+	import NorwegianConfettiFlag from '../../components/NorwegianConfettiFlag.svelte';
+	import ProgressContainer from '../../components/ProgressContainer.svelte';
+	import CatCardsGrid from '../../components/CatCardsGrid.svelte';
+	import Textarea from '../../components/Textarea.svelte';
+	import PartyText from '../../components/PartyText.svelte';
+	import ToggleConfetti from '../../components/ToggleConfetti.svelte';
 	import About from '../about/+page.svelte';
 	import {
 		typewriter,
@@ -24,7 +30,7 @@
 		onCursorMove
 	} from '../utils/utils.svelte';
 
-	import type { TextareaObj, CatImageObject, StoreCatImages } from '../../models/models';
+	import type { TextareaObj, StoreCatImages } from '../../models/models';
 
 	let textareaValue: string = '';
 	let name: string = 'Kenny';
@@ -37,13 +43,6 @@
 	let timeLeftSeconds: number = 0;
 	let timeLeftDecimalSeconds: number = 0;
 	let cursorCoordinates: { x: number; y: number } = { x: 0, y: 0 };
-	let progressButtons: { percent: string; progress: number }[] = [
-		{ percent: '0%', progress: 0 },
-		{ percent: '25%', progress: 0.25 },
-		{ percent: '50%', progress: 0.5 },
-		{ percent: '75%', progress: 0.75 },
-		{ percent: '100%', progress: 1 }
-	];
 	let greetList: string[] = [
 		'Hello',
 		'Hi',
@@ -73,7 +72,6 @@
 	$: $count, hideTextAfterTimeout();
 	$: incrementedText = `You have incremented to: ${$count} (${$doubleIfParty}) and double is: ${$doubleIt}`;
 	$: cursorText = `${cursorCoordinates.x} - ${cursorCoordinates.y}`;
-	$: $progress, partyProgress();
 	$: partyButtonText = !$partyMode ? 'Party Time!' : 'Make it stop, please!';
 	$: clickedText = `Clicked is: ${clicked}`;
 	$: clicked, setContext('clicked', writable(clicked));
@@ -95,18 +93,12 @@
 		'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREp4csdfsx14u1OiAAEMTjHGDzbfdJPa4fhg&usqp=CAU'
 	];
 
-
 	onMount(() => {
 		catImages = createCatImageStore(cuteAndQuirkyCatImages);
-	})
+	});
 
 	const concatAndCombineTextareaText = (textObjs: TextareaObj[]) =>
 		textObjs.map((x) => x.text.concat('')).reduce((acc, str) => `${acc} ${str}`, '');
-
-	const partyProgress = () => {
-		if ($progress === 1) partyMode.set(true);
-		else partyMode.set(false);
-	};
 
 	const incrementAndDisplayText = () => {
 		count.increment();
@@ -260,19 +252,7 @@
 		{/if}
 	</ToggleConfetti>
 
-	{#key $progress}
-		<Progressbar value={$progress} />
-	{/key}
-
-	<div class="progressButtonContainer">
-		{#each progressButtons as button}
-			<ProgressButton
-				partyMode={$partyMode}
-				on:click={(e) => progress.set(button.progress)}
-				percent={button.percent}
-			/>
-		{/each}
-	</div>
+	<ProgressContainer />
 
 	{#await myPromise}
 		<div
@@ -300,7 +280,7 @@
 
 	<p class="giveMeSpace">How many textareas do you want?</p>
 	<input
-        name="svada2"
+		name="svada2"
 		class:partyStyling={$partyMode}
 		type="number"
 		bind:value={howManyArrays}
@@ -346,7 +326,7 @@
 	</button>
 </div>
 
-<style>
+<style lang="postcss">
 	.incrementAndDecrementButtonContainer {
 		width: 45.5rem;
 		margin: 0 auto;
@@ -357,12 +337,6 @@
 		padding: 0;
 		width: 20rem;
 		height: 4rem;
-	}
-
-	div.progressButtonContainer {
-		display: flex;
-		width: 50%;
-		margin: 0 25%;
 	}
 
 	h1.welcome {
@@ -391,6 +365,7 @@
 		padding: 1rem;
 		margin: 5px auto;
 		margin-top: 15px;
+		color: black;
 		width: 10rem;
 		height: 3rem;
 		background-color: rgba(255, 255, 255, var(--opacity));
@@ -412,53 +387,9 @@
 	button {
 		display: block;
 		margin: 3rem auto;
+		color: black;
 		width: 20rem;
 		height: 3rem;
 		background-color: rgba(255, 255, 255, var(--opacity));
-	}
-
-	:global(.partyStyling) {
-		background: linear-gradient(45deg, #ffb700, #ff57a5, #353acd);
-		background-size: 400% 400%;
-		animation: gradient 2s ease 5;
-	}
-
-	@keyframes gradient {
-		0% {
-			background-position: 0% 50%;
-		}
-		25% {
-			background-position: 50% 50%;
-		}
-		50% {
-			background-position: 100% 50%;
-		}
-		75% {
-			background-position: 50% 50%;
-		}
-		100% {
-			background-position: 0% 50%;
-		}
-	}
-
-	@keyframes party-zoom {
-		0% {
-			transform: scale(0.5, 0.5);
-		}
-		15% {
-			transform: scale(0.5, 0.5);
-		}
-		25% {
-			transform: scale(1.5, 1.5);
-		}
-		35% {
-			transform: scale(1, 1);
-		}
-		50% {
-			transform: scale(1.5, 1.5);
-		}
-		100% {
-			transform: scale(0.5, 0.5);
-		}
 	}
 </style>

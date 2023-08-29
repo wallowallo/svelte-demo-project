@@ -47,12 +47,13 @@
 	};
 </script>
 
-<div class="container">
+<div class="h-[16rem] mx-auto">
 	{#if typedInArea === true}
-		<p>❤️‍🔥 Hell yeah!! They are typing in me! ❤️‍🔥</p>
+		<p class="h-[2rem] w-[22rem] mx-auto">❤️‍🔥 Hell yeah!! They are typing in me! ❤️‍🔥</p>
 	{/if}
 
 	<textarea
+		class="w-1/2 h-[13rem] mx-[25%] p-[1rem] resize-none text-xl opacity-[--opacity] text-black"
 		name="svada"
 		on:keydown={setTrue}
 		on:keyup={debounce(handleKeyUp)}
@@ -62,24 +63,3 @@
 		rows="10"
 	/>
 </div>
-
-<style>
-	.container {
-		height: 16rem;
-	}
-	p {
-		width: 22rem;
-		height: 2rem;
-		margin: 0 auto;
-	}
-
-	textarea {
-		padding: 1rem;
-		width: 50%;
-		height: 13rem;
-		resize: none;
-		margin: 0 25%;
-		background-color: rgba(255, 255, 255, var(--opacity));
-		font-size: 18px;
-	}
-</style>
