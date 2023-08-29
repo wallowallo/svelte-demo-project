@@ -48,7 +48,7 @@
 	</div>
 {/if}
 
-<style>
+<style lang="postcss">
 	.fabContainer {
 		display: flex;
 		width: 100%;

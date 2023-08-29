@@ -29,7 +29,7 @@
 	{/if}
 </span>
 
-<style>
+<style lang="postcss">
 	.relative {
 		position: relative;
 	}

@@ -29,7 +29,7 @@
 	</div>
 </div>
 
-<style>
+<style lang="postcss">
 	.overlay {
 		position: fixed;
 		width: 100%;

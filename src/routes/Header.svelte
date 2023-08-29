@@ -12,14 +12,17 @@
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
-			<li aria-current={$page.url.pathname === '/tutorial' ? 'page' : undefined}>
-				<a class:partyText={$partyMode} href="/tutorial">Home</a>
+			<li aria-current={$page.url.pathname === '/home' ? 'page' : undefined}>
+				<a class:partyText={$partyMode} href="/home">Home</a>
 			</li>
 			<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
 				<a class:partyText={$partyMode} href="/about">About</a>
 			</li>
 			<li aria-current={$page.url.pathname === '/counter' ? 'page' : undefined}>
 				<a class:partyText={$partyMode} href="/counter">Counter</a>
+			</li>
+			<li aria-current={$page.url.pathname === '/party' ? 'page' : undefined}>
+				<a class:partyText={$partyMode} href="/party">Party</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
@@ -34,7 +37,7 @@
 	</div>
 </header>
 
-<style>
+<style lang="postcss">
 	header {
 		display: flex;
 		justify-content: space-between;

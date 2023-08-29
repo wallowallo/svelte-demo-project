@@ -45,7 +45,7 @@
 	<slot name="bottom" />
 </div>
 
-<style>
+<style lang="postcss">
 	.header {
 		border-bottom: 1px solid black;
 	}

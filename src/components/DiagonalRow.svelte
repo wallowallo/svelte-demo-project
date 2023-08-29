@@ -1,6 +1,6 @@
 <div class="diagonalRow" />
 
-<style>
+<style lang="postcss">
 	.diagonalRow {
 		width: 2rem;
 		height: 30rem;

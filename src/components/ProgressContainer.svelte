@@ -32,7 +32,7 @@
 	{/each}
 </div>
 
-<style>
+<style lang="postcss">
 	div.progressButtonContainer {
 		display: flex;
 		width: 50%;

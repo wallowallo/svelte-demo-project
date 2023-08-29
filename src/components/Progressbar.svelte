@@ -27,7 +27,7 @@
 
 <progress {value} />
 
-<style>
+<style lang="postcss">
 	p {
 		width: 10rem;
 		margin: 0 25.5%;
