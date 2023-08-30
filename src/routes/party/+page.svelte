@@ -375,13 +375,4 @@
 		margin: 5px auto;
 		text-align: center;
 	}
-
-	button {
-		display: block;
-		margin: 3rem auto;
-		color: black;
-		width: 20rem;
-		height: 3rem;
-		background-color: rgba(255, 255, 255, var(--opacity));
-	}
 </style>
