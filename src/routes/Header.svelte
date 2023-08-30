@@ -1,34 +1,41 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import github from '$lib/images/github.svg';
+	import { fade } from 'svelte/transition';
 	import { partyMode } from './stores';
+
+	let navMenuFadeIn = true;
+
+	setTimeout(() => navMenuFadeIn = false, 3500)
 </script>
 
 <header>
 	<div class="corner" />
-
-	<nav>
-		<svg viewBox="0 0 2 3" aria-hidden="true">
-			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
-		</svg>
-		<ul>
-			<li aria-current={$page.url.pathname === '/home' ? 'page' : undefined}>
-				<a class:partyText={$partyMode} href="/home">Home</a>
-			</li>
-			<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
-				<a class:partyText={$partyMode} href="/about">About</a>
-			</li>
-			<li aria-current={$page.url.pathname === '/counter' ? 'page' : undefined}>
-				<a class:partyText={$partyMode} href="/counter">Counter</a>
-			</li>
-			<li aria-current={$page.url.pathname === '/party' ? 'page' : undefined}>
-				<a class:partyText={$partyMode} href="/party">Party</a>
-			</li>
-		</ul>
-		<svg viewBox="0 0 2 3" aria-hidden="true">
-			<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
-		</svg>
-	</nav>
+ 
+	{#if !navMenuFadeIn}
+		<nav in:fade>
+			<svg viewBox="0 0 2 3" aria-hidden="true">
+				<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
+			</svg>
+			<ul>
+				<li aria-current={$page.url.pathname === '/home' ? 'page' : undefined}>
+					<a class:partyText={$partyMode} href="/home">Home</a>
+				</li>
+				<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
+					<a class:partyText={$partyMode} href="/about">About</a>
+				</li>
+				<li aria-current={$page.url.pathname === '/counter' ? 'page' : undefined}>
+					<a class:partyText={$partyMode} href="/counter">Counter</a>
+				</li>
+				<li aria-current={$page.url.pathname === '/party' ? 'page' : undefined}>
+					<a class:partyText={$partyMode} href="/party">Party</a>
+				</li>
+			</ul>
+			<svg viewBox="0 0 2 3" aria-hidden="true">
+				<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
+			</svg>
+		</nav>
+	{/if}
 
 	<div class="corner">
 		<a target="_blank" href="https://github.com/wallowallo">
