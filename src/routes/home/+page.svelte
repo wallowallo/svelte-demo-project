@@ -100,7 +100,7 @@
 	{/if}
 
 
-	<button on:click={sendRequestAndParseCats} >But... I need more cats to look at!</button>
+	<button class="bg-red-600 text-5xl w-[50%] h-[5rem] rounded-lg hover:bg-white" on:click={sendRequestAndParseCats} >🙀But... I need more cats to look at!🙀</button>
 
 </div>
 
