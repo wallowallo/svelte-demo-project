@@ -26,7 +26,7 @@
 		convertMillisecondsToDecimalSeconds,
 		convertMillisecondsToSeconds,
 		onCursorMove
-	} from '../utils/utils.svelte';
+	} from '../utils/utils';
 
 	import type { TextareaObj, StoreCatImages } from '../../models/models';
 

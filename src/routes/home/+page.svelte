@@ -5,7 +5,7 @@
 	import {
 		createCatImageStore
 	} from '../stores';
-	import { fetchUrlAndSetFunction } from '../utils/utils.svelte';
+	import { fetchUrlAndSetFunction } from '../utils/utils';
 
 	import CatCardsGrid from '../../components/CatCardsGrid.svelte';
 

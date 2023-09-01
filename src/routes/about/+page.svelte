@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
-	import { typewriter } from '../utils/utils.svelte';
+	import { typewriter } from '../utils/utils';
 	export let recieveUpdateFromParent: number = 0;
 	export let partyMode = false;
 	let text = 'guess im the middle man';

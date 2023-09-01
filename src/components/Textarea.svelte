@@ -4,7 +4,7 @@
 </script>
 
 <script lang="ts">
-	import { debounce } from '../routes/utils/utils.svelte';
+	import { debounce } from '../routes/utils/utils';
 	export let textAreaObjs = array;
 	export let partyMode: boolean = false;
 	export let value: string = '';

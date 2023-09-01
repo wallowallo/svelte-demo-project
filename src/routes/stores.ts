@@ -1,5 +1,5 @@
 import { writable, derived } from 'svelte/store';
-import { double, increment, decrement } from './utils/utils.svelte';
+import { double, increment, decrement } from './utils/utils.ts';
 import { tweened } from 'svelte/motion';
 import { cubicOut } from 'svelte/easing';
 import type { CatImageObject, StoreCatImages } from '../models/models';
