@@ -1,0 +1,137 @@
+@import '@fontsource/fira-mono';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	--font-body: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+		Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	--font-mono: 'Fira Mono', monospace;
+	--color-theme-1: hsl(350, 100%, 70%);
+	--color-theme-2: hsl(325, 100%, 70%);
+	--color-theme-3: hsl(300, 100%, 70%);
+	--color-theme-4: hsl(275, 100%, 70%);
+	/* --color-theme-2: #4075a6; */
+	--color-bg-0: var(--color-theme-4);
+	--color-bg-1: var(--color-theme-1);
+	--color-text: rgb(255, 255, 255);
+	--color-text2: hsl(350, 100%, 16%);
+	--color-text3: hsl(325, 100%, 16%);
+	--color-text4: hsl(300, 100%, 40%);
+	--color-text5: hsl(275, 100%, 16%);
+
+	--red: hsl(0, 100%, 58%);
+	--orange: hsl(29, 99%, 59%);
+	--blue: hsl(222, 88%, 68%);
+	--green: hsl(115, 100%, 61%);
+	--yellow: hsl(53, 100%, 58%);
+	--purple: hsl(275, 100%, 64%);
+	--pink: hsl(302, 98%, 63%);
+
+	--opacity: 0.65;
+	--column-width: 42rem;
+	--column-margin-top: 4rem;
+	font-family: var(--font-body);
+	color: var(--color-text);
+}
+
+html {
+	box-sizing: border-box;
+}
+
+/* important for cards */
+*,
+*:before,
+*:after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	min-height: 100vh;
+	margin: 0;
+	background-attachment: fixed;
+	background-size: 100vw 100vh;
+	background-image: linear-gradient(0deg, var(--color-bg-0), var(--color-bg-0), var(--color-bg-1));
+}
+
+h1,
+h2,
+p {
+	font-weight: 400;
+}
+
+p {
+	width: clamp(45ch, 100%, 75ch);
+	color: white;
+	line-height: 1.5;
+	font-size: 18px;
+	text-shadow: 2px 1px 1px black;
+}
+
+a {
+	color: var(--color-theme-1);
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+h1 {
+	font-size: 2rem;
+	text-align: center;
+}
+
+h2 {
+	font-size: 1rem;
+}
+
+pre {
+	font-size: 16px;
+	font-family: var(--font-mono);
+	background-color: rgba(255, 255, 255, 0.45);
+	border-radius: 3px;
+	box-shadow: 2px 2px 6px rgb(255 255 255 / 25%);
+	padding: 0.5em;
+	overflow-x: auto;
+	color: var(--color-text);
+}
+
+.text-column {
+	display: flex;
+	max-width: 48rem;
+	flex: 0.6;
+	flex-direction: column;
+	justify-content: center;
+	margin: 0 auto;
+}
+
+input,
+button {
+	font-size: inherit;
+	font-family: inherit;
+}
+
+button:focus:not(:focus-visible) {
+	outline: none;
+}
+
+@media (min-width: 720px) {
+	h1 {
+		font-size: 2.4rem;
+	}
+}
+
+.visually-hidden {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: auto;
+	margin: 0;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+	white-space: nowrap;
+}

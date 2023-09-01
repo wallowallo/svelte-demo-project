@@ -7,7 +7,7 @@
 
 	const clicked = getContext('clicked');
 
-	$: clickedActive = $clicked;
+	$: clickedActive = clicked;
 </script>
 
 <svelte:head>

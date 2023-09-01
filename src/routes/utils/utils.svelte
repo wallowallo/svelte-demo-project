@@ -46,7 +46,18 @@
 		};
 	};
 
+	const fetchUrlAndSetFunction = (url: string) => (fn: Function) => {
+		fetch(url)
+			.then(res => res.json())
+			.then(fn())
+			.catch(e => {
+				console.log(e);
+				return [];
+			});
+	}
+
 	export {
+		fetchUrlAndSetFunction,
 		debounce,
 		typewriter,
 		double,

@@ -5,10 +5,11 @@
 	import {
 		createCatImageStore
 	} from '../stores';
+	import { fetchUrlAndSetFunction } from '../utils/utils.svelte';
 
 	import CatCardsGrid from '../../components/CatCardsGrid.svelte';
 
-	import type { StoreCatImages } from '../../models/models';
+	import type { CatImageObject, StoreCatImages } from '../../models/models';
 	import LandingPageCard from '../../components/LandingPageCard.svelte';
 	let catImages: StoreCatImages;
 	let catImages2: StoreCatImages;
@@ -31,47 +32,34 @@
 	];
 	$: loading = load;
 
-	const sendRequestAndParseCats = () => {
-		const fake = createCatImageStore([
-			{ url: ''},
-			{ url: ''},
-			{ url: ''},
-			{ url: ''},
-			{ url: ''},
-			{ url: ''},
-			{ url: ''},
-			{ url: ''},
-			{ url: ''},
-			{ url: ''},
-		].map(i => i.url));
-		needMoarCats = [...needMoarCats, { store: fake, loading: true }]
-		fetch("https://api.thecatapi.com/v1/images/search?limit=10")
-			.then(res => res.json())
-			.then(data => {
-				setTimeout(() => {
-					needMoarCats = needMoarCats.slice(0, -1);
+	const fetchCats = fetchUrlAndSetFunction("https://api.thecatapi.com/v1/images/search?limit=10");
+
+	const sendRequestAndParseCats1 = () => {
+		const loadingAnimationArray = createCatImageStore(Array.from(Array(10), (function(i) { return  ''})));
+		needMoarCats = [...needMoarCats, { store: loadingAnimationArray, loading: true }]
+		
+
+		return (data: { url: string}[]) => {
+			setTimeout(() => {
+					needMoarCats = [...needMoarCats.slice(0, -1)];
 					const images = createCatImageStore(data.map(i => i.url));
 					needMoarCats = [...needMoarCats, { store: images, loading: false}]
 				}, 1500)
-			})
-			.catch(e => {
-				console.log(e);
-				return [];
-			});
+		}
+	};
+
+	const onMountFetch = () => {
+		return (data: { url: string}[]) => {
+			setTimeout(() => {
+					catImages2 = createCatImageStore(data.map(i => i.url));
+					// loads pretty fast so put a timeout to show animation
+					setTimeout(() => load = false, 3000);
+				}, 1500)
+		}
 	}
 
 	onMount(async () => {
-		fetch("https://api.thecatapi.com/v1/images/search?limit=10")
-			.then(res => res.json())
-			.then(data => {
-				catImages2 = createCatImageStore(data.map(i => i.url));
-				// loads pretty fast so put a timeout to show animation
-				setTimeout(() => load = false, 3000);
-			})
-			.catch(e => {
-				console.log(e);
-				return [];
-			});
+		fetchCats(onMountFetch);
 
 		catImages = createCatImageStore(cuteAndQuirkyCatImages);
 		setTimeout(() => load2 = false, 4000);
@@ -100,7 +88,7 @@
 	{/if}
 
 
-	<button class="bg-red-600 text-5xl w-[50%] h-[5rem] rounded-lg hover:bg-white" on:click={sendRequestAndParseCats} >🙀But... I need more cats to look at!🙀</button>
+	<button class="bg-red-600 text-5xl w-[50%] h-[5rem] rounded-lg hover:bg-white" on:click={() => fetchCats(sendRequestAndParseCats1)} >🙀But... I need more cats to look at!🙀</button>
 
 </div>
 

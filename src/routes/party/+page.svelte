@@ -1,7 +1,7 @@
 <svelte:options immutable />
 
 <script lang="ts">
-	import { onMount, setContext } from 'svelte';
+	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { Confetti } from 'svelte-confetti';
 	import { fade } from 'svelte/transition';
@@ -12,7 +12,6 @@
 		doubleIfParty,
 		doubleIt,
 		progress,
-		createCatImageStore
 	} from '../stores';
 
 	import NorwegianConfettiFlag from '../../components/NorwegianConfettiFlag.svelte';

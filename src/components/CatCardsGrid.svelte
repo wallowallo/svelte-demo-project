@@ -15,7 +15,7 @@
 		{/each}
 	{:else}
 		{#each $store as image (image.id)}
-			<CatCard store={store} {image} />
+			<CatCard {store} {image} />
 		{/each}
 	{/if}
 </div>
